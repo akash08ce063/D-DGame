@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<characters>
+    <character>
+        <character>
+            <imagePath>aasasasasa</imagePath>
+            <name>Barbarian</name>
+            <health>70</health>
+            <armor>1</armor>
+            <attackPts>2</attackPts>
+            <attackRange>1</attackRange>
+            <movement>1</movement>
+        </character>
+        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
+            <imagePath></imagePath>
+            <name>Paladin</name>
+            <health>50</health>
+            <armor>1</armor>
+            <attackPts>1</attackPts>
+            <attackRange>2</attackRange>
+            <movement>1</movement>
+            <type>Paladin</type>
+            <strength>1</strength>
+            <vitality>1</vitality>
+            <dexterity>2</dexterity>
+            <wisdom>1</wisdom>
+            <level>1</level>
+            <exp>1</exp>
+            <inventory/>
+        </character>
+        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
+            <imagePath></imagePath>
+            <name>Sorcerer</name>
+            <health>50</health>
+            <armor>2</armor>
+            <attackPts>1</attackPts>
+            <attackRange>1</attackRange>
+            <movement>1</movement>
+            <type>Sorcerer</type>
+            <strength>1</strength>
+            <vitality>1</vitality>
+            <dexterity>1</dexterity>
+            <wisdom>2</wisdom>
+            <level>1</level>
+            <exp>1</exp>
+            <inventory/>
+        </character>
+        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
+            <imagePath></imagePath>
+            <name>Dwarf</name>
+            <health>60</health>
+            <armor>1</armor>
+            <attackPts>1</attackPts>
+            <attackRange>1</attackRange>
+            <movement>1</movement>
+            <type>Dwarf</type>
+            <strength>1</strength>
+            <vitality>2</vitality>
+            <dexterity>1</dexterity>
+            <wisdom>1</wisdom>
+            <level>1</level>
+            <exp>1</exp>
+            <inventory/>
+        </character>
+    </character>
+</characters>
