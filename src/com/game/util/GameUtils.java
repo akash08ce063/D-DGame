@@ -203,6 +203,7 @@ public class GameUtils {
         return position;
     }
 
+    
     public static int getPositionOfPotionItem(String name) {
         int position = -1;
         if (GameBean.itemDetails != null) {
