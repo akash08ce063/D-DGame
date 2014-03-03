@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -249,5 +247,25 @@ public class GameUtils {
             throw new Exception(e);
         }
         return mapInfo;
+    }
+    public static MapInformation fetchParticularMapData(String fileName,String mapName) throws Exception{
+        try {
+            JAXBContext context = JAXBContext.newInstance(MapInformationWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+            MapInformationWrapper wrapper  = (MapInformationWrapper) um.unmarshal(new File(fileName));
+            ArrayList<MapInformation> list = wrapper.getMapList();
+            for(MapInformation info : list){
+                if(info.getMapName().equalsIgnoreCase(mapName))
+                    return info;
+            }
+            
+        } catch (JAXBException e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new JAXBException(e);
+        } catch (Exception e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new Exception(e);
+        }
+        return null;
     }
 }
