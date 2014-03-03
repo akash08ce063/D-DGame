@@ -30,4 +30,5 @@ public class Configuration {
     public static final String PATH_FOR_IMAGES = "./Images/";
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
+    public static final String PATH_FOR_MAP = "./Map/map.xml";
 }

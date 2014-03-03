@@ -10,12 +10,14 @@ import com.game.models.Armour;
 import com.game.models.Configuration;
 import com.game.models.GameBean;
 import com.game.models.Item;
+import com.game.models.Player;
 import com.game.models.Ring;
 import com.game.ui.views.CharachterEditorPanel;
 import com.game.ui.views.WeaponEditorPanel;
 import com.game.util.GameUtils;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -47,10 +49,27 @@ public class Test extends JFrame{
         setVisible(true);
     }
     public static void main(String[] args) {
+        System.out.println("hi..");
+        HashMap<Player,Integer> map = new HashMap<Player,Integer>();
+        Player p = new Player();
+        p.setArmor(5);
+        map.put(p, 1);
+        System.out.println(p.hashCode());
+        Player p1 = new Player();
+        p1.setArmor(6);
+        map.put(p1, 2);
+        Player p2 = new Player();
+        p2 .setArmor(7);
+        System.out.println(map);
+        System.out.println(map.get(p2));
+       
+        
+        
+        
 //        Object a = null;
 //        String x = (String)a;
 //        System.out.println(x);
-        new Test();
+//        new Test();
 //        ArrayList<Item> item = new ArrayList<Item>();
 //        Ring ring = new Ring();
 //        ring.setName("kaushik");

@@ -16,6 +16,7 @@ import com.game.models.Ring;
 import com.game.models.Treasure;
 import com.game.xml.models.CharacterWrapper;
 import com.game.xml.models.ItemWrapper;
+import com.game.xml.models.MapInformationWrapper;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -203,7 +204,6 @@ public class GameUtils {
         return position;
     }
 
-    
     public static int getPositionOfPotionItem(String name) {
         int position = -1;
         if (GameBean.itemDetails != null) {
@@ -219,5 +219,35 @@ public class GameUtils {
             }
         }
         return position;
+    }
+
+    public static void writeMapInformation(MapInformationWrapper wrapper,String fileName) throws Exception {
+        try {
+            JAXBContext context = JAXBContext.newInstance(MapInformationWrapper.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(wrapper, new File(fileName));
+        } catch (JAXBException e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new JAXBException(e);
+        } catch (Exception e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new Exception(e);
+        }
+    }
+    public static MapInformationWrapper readMapInformation(String fileName) throws Exception{
+        MapInformationWrapper mapInfo = null;
+        try {
+            JAXBContext context = JAXBContext.newInstance(MapInformationWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+            mapInfo = (MapInformationWrapper) um.unmarshal(new File(fileName));
+        } catch (JAXBException e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new JAXBException(e);
+        } catch (Exception e) {
+            System.out.println("GameUtils : writeMapInformation() : Execption occured : " + e);
+            throw new Exception(e);
+        }
+        return mapInfo;
     }
 }
