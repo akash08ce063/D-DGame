@@ -6,12 +6,13 @@
 
 package com.game.models;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 
 /**
  *
@@ -19,48 +20,46 @@ import javax.xml.bind.annotation.XmlElementWrapper;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MapInformation {
-    @XmlElement(required = true)
     private String mapName;
-    @XmlElementWrapper(name = "path")
-    private LinkedHashSet<TileInformation> path = new LinkedHashSet<TileInformation>();
-    @XmlElementWrapper(name = "startPointInfo")
-    private LinkedHashSet<TileInformation> startPointInfo = new LinkedHashSet<TileInformation>();
-    @XmlElementWrapper(name = "enemyPathInfo")
-    private LinkedHashSet<TileInformation> enemyPathInfo = new LinkedHashSet<TileInformation>();
-    @XmlElementWrapper(name = "endPointInfo")
-    private LinkedHashSet<TileInformation> endPointInfo = new LinkedHashSet<TileInformation>();
-
-    public LinkedHashSet<TileInformation> getPath() {
-        return path;
+    @XmlElement(name = "Path")
+    private HashMap<Integer,TileInformation> pathMap = new HashMap<Integer,TileInformation>();
+    @XmlElement(name = "UserLocation")
+    private LinkedHashMap<Integer,TileInformation> userLocation = new LinkedHashMap<Integer, TileInformation>();
+    private ArrayList<TileInformation> startPointInfo = new ArrayList<TileInformation>();
+    private int rows;
+    private int columns;
+    public HashMap<Integer, TileInformation> getPathMap() {
+        return pathMap;
     }
 
-    public void setPath(LinkedHashSet<TileInformation> path) {
-        this.path = path;
+    public void setPathMap(HashMap<Integer, TileInformation> pathMap) {
+        this.pathMap = pathMap;
     }
 
-    public LinkedHashSet<TileInformation> getStartPointInfo() {
-        return startPointInfo;
+    public LinkedHashMap<Integer, TileInformation> getUserLocation() {
+        return userLocation;
     }
 
-    public void setStartPointInfo(LinkedHashSet<TileInformation> startPointInfo) {
-        this.startPointInfo = startPointInfo;
+    public void setUserLocation(LinkedHashMap<Integer, TileInformation> userLocation) {
+        this.userLocation = userLocation;
     }
 
-    public LinkedHashSet<TileInformation> getEnemyPathInfo() {
-        return enemyPathInfo;
+    public int getRows() {
+        return rows;
     }
 
-    public void setEnemyPathInfo(LinkedHashSet<TileInformation> enemyPathInfo) {
-        this.enemyPathInfo = enemyPathInfo;
+    public void setRows(int rows) {
+        this.rows = rows;
     }
 
-    public LinkedHashSet<TileInformation> getEndPointInfo() {
-        return endPointInfo;
+    public int getColumns() {
+        return columns;
     }
 
-    public void setEndPointInfo(LinkedHashSet<TileInformation> endPointInfo) {
-        this.endPointInfo = endPointInfo;
+    public void setColumns(int columns) {
+        this.columns = columns;
     }
+
     public String getMapName() {
         return mapName;
     }
@@ -68,11 +67,11 @@ public class MapInformation {
     public void setMapName(String mapName) {
         this.mapName = mapName;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + Objects.hashCode(this.mapName);
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.mapName);
         return hash;
     }
 
@@ -89,5 +88,16 @@ public class MapInformation {
             return false;
         }
         return true;
+    }
+
+    public ArrayList<TileInformation> getStartPointInfo() {
+        return startPointInfo;
+    }
+
+    public void setStartPointInfo(ArrayList<TileInformation> startPointInfo) {
+        this.startPointInfo = startPointInfo;
+    }
+    public String toString(){
+        return mapName;
     }
 }

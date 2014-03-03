@@ -56,7 +56,7 @@ public class ItemsInit {
         treasure.setValue(1000);
         list.add(treasure);
         Potion potion = new Potion();
-        potion.setPotionName("Large Potion");
+        potion.setName("Large Potion");
         potion.setPotionPts(50);
         list.add(potion);
         wrapper.setItem(list);

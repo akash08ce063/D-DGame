@@ -45,7 +45,7 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
     public void doGui() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        JLabel noteLbl = new JLabel("<html><div style='width : 500px;'>Pls select a value to choose an Armour or you can create a new "
+        JLabel noteLbl = new JLabel("<html><div style='width : 500px;'>Pls select a value to choose an Weapon or you can create a new "
                 + "Weapon entity below. Once selected a weapon, its' details will be available below</div></html>");
         noteLbl.setAlignmentX(0);
         add(noteLbl);
