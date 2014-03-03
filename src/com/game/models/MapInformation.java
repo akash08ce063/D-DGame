@@ -24,8 +24,8 @@ public class MapInformation {
     @XmlElement(name = "Path")
     private HashMap<Integer,TileInformation> pathMap = new HashMap<Integer,TileInformation>();
     @XmlElement(name = "UserLocation")
-    private LinkedHashMap<Integer,TileInformation> userLocation = new LinkedHashMap<Integer, TileInformation>();
-    private ArrayList<TileInformation> startPointInfo = new ArrayList<TileInformation>();
+    private LinkedHashMap<Integer,Integer> userLocation = new LinkedHashMap<Integer, Integer>();
+    private ArrayList<Integer> startPointInfo = new ArrayList<Integer>();
     private int rows;
     private int columns;
     public HashMap<Integer, TileInformation> getPathMap() {
@@ -36,11 +36,11 @@ public class MapInformation {
         this.pathMap = pathMap;
     }
 
-    public LinkedHashMap<Integer, TileInformation> getUserLocation() {
+    public LinkedHashMap<Integer, Integer> getUserLocation() {
         return userLocation;
     }
 
-    public void setUserLocation(LinkedHashMap<Integer, TileInformation> userLocation) {
+    public void setUserLocation(LinkedHashMap<Integer, Integer> userLocation) {
         this.userLocation = userLocation;
     }
 
@@ -90,11 +90,11 @@ public class MapInformation {
         return true;
     }
 
-    public ArrayList<TileInformation> getStartPointInfo() {
+    public ArrayList<Integer> getStartPointInfo() {
         return startPointInfo;
     }
 
-    public void setStartPointInfo(ArrayList<TileInformation> startPointInfo) {
+    public void setStartPointInfo(ArrayList<Integer> startPointInfo) {
         this.startPointInfo = startPointInfo;
     }
     public String toString(){
