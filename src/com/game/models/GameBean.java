@@ -16,4 +16,5 @@ public class GameBean {
     public static ArrayList<GameCharacter> enemyDetails = null;
     public static ArrayList<Player> playerDetails = null;
     public static ArrayList<Item> itemDetails = null;
+    public static MapInformation mapInfo= null;
 }

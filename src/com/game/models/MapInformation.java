@@ -6,12 +6,14 @@
 
 package com.game.models;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -19,6 +21,10 @@ import javax.xml.bind.annotation.XmlElementWrapper;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MapInformation {
+    @XmlTransient
+    private HashMap<Integer,TileInformation> pathMap = new HashMap<Integer,TileInformation>();
+    private int rows;
+    private int columns;
     @XmlElement(required = true)
     private String mapName;
     @XmlElementWrapper(name = "path")
@@ -89,5 +95,29 @@ public class MapInformation {
             return false;
         }
         return true;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+
+    public HashMap<Integer, TileInformation> getPathMap() {
+        return pathMap;
+    }
+
+    public void setPathMap(HashMap<Integer, TileInformation> pathMap) {
+        this.pathMap = pathMap;
     }
 }

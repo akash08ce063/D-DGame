@@ -21,7 +21,7 @@ public class Inventory {
     private LinkedList<Ring> ring;
     private Armour boot;
     private Long totGold;
-
+    private LinkedList<Item> items;
     public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
