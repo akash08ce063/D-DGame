@@ -24,7 +24,7 @@ public class GameBean {
     public static ArrayList<Item> treasureDetails = null;
     public static MapInformation mapInfo= null;
     
-    public void doInit() throws Exception{
+    public static void doInit() throws Exception{
         GameBean.enemyDetails = GameUtils.getCharacterDetailsFromFile(Configuration.PATH_FOR_ENEMY_CHARACTERS);
         File file = new File(Configuration.PATH_FOR_ARMOURS);
         if(file.exists()){

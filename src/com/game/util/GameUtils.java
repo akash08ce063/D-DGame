@@ -63,7 +63,6 @@ public class GameUtils {
             JAXBContext context = JAXBContext.newInstance(ItemWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
             ItemWrapper wrapper = (ItemWrapper) um.unmarshal(new File(fileName));
-            if(wrapper == null)
             itemList = wrapper.getItem();
         } catch (JAXBException e) {
             System.out.println("GameUtils : getAllItems() : Execption occured : " + e);

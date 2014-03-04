@@ -5,6 +5,8 @@
  */
 package com.game.ui.views;
 
+import com.game.models.GameBean;
+import com.game.models.MapInformation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -131,13 +133,18 @@ public class MapEditor extends JFrame implements ActionListener{
             bottomPanel.revalidate();
             bottomPanel.getParent().revalidate();
         }
+        GameBean.mapInfo = new MapInformation();
+        GameBean.mapInfo.setColumns(columns);
+        GameBean.mapInfo.setRows(rows);
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        GameBean.doInit();
         new MapEditor();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton src = (JButton) ae.getSource();
+        new ComplexDialog(src.getActionCommand());
     }
 }

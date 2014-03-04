@@ -155,7 +155,7 @@ public class ComplexDialog extends JDialog implements ActionListener{
             }
             info.setEndTile(true);
             GameBean.mapInfo.getPathMap().put(location, info);
-            checkBox[6].setSelected(true);
+            checkBox[7].setSelected(true);
         }
         else if(ae.getActionCommand().equalsIgnoreCase("Save")){
             this.dispose();
