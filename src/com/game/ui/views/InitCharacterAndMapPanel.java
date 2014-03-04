@@ -7,6 +7,8 @@
 package com.game.ui.views;
 
 import com.game.models.*;
+import com.game.util.GameUtils;
+import com.game.xml.models.MapInformationWrapper;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Label;
@@ -14,9 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -25,9 +32,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  * This class is used to generate the UI of character and map panel
@@ -35,23 +39,29 @@ import javax.swing.event.ListSelectionListener;
  * @author 韩信
  */
 public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
-    private String MapDirectory="F:\\study\\game\\Maps\\";
-    private String CharacterDirectory="F:\\study\\game\\Characters\\";
+    private final String MapDirectory;
+    private final String CharacterDirectory;
     private JList MapList;
     private JList CharacterList;
     private Label WarningLabel; 
     
     public String MapName = null; //is used to load map
-    public String[] CharacterNames = new String[4]; //is used to load character
     
-    public InitCharacterAndMapPanel(){
+    public ArrayList<GameCharacter> collectionOfPlayers = new ArrayList(); //is used to load players
+    public MapInformation SelectedMap = new MapInformation();
+    public MapInformationWrapper TotalMaps = new MapInformationWrapper();
+    public ArrayList<Player> GamePlayers = new ArrayList(); 
+    
+    public InitCharacterAndMapPanel() throws Exception{
+        MapDirectory=Configuration.PATH_FOR_MAP;
+        CharacterDirectory=Configuration.PATH_FOR_USER_CHARACTERS;
         initUI();
     }
     
     /**
      * this method is used to generate UI for character and map choose panel
      */
-    public void initUI() {
+    public void initUI() throws Exception {
         JPanel basicPanel = new JPanel();
         basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
         
@@ -76,10 +86,10 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         WarningLabel = new Label ("Please choose 4 characters !");
         WarningLabel.setVisible(true);
         
-        String[] TotalNames1=getNames(CharacterDirectory);
+        String[] TotalNames1 = getCharacterNames();
         CharacterList = new JList(TotalNames1);
  
-        String[] TotalNames2=getNames(MapDirectory);
+        String[] TotalNames2 = getMapNames(MapDirectory);
         MapList = new JList(TotalNames2);
         MapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
@@ -121,16 +131,29 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
      * at same time check whether the user has choosed the right value
      * @param event 
      */
+    @Override
      public void actionPerformed(ActionEvent event){
         if(MapList.getSelectedValue() != null && CharacterList.getSelectedValuesList() != null){
-            MapName = (String) MapList.getSelectedValue()+".xml";
+            MapName = (String) MapList.getSelectedValue();
             System.out.println(MapName);
             List o = CharacterList.getSelectedValuesList();
             if(o.size()==4){
+                Player GC = new Player();
+                Iterator it = collectionOfPlayers.iterator();
                 for(int i =0;i<o.size();i++){
-                CharacterNames[i]=(String)o.get(i)+".xml";
-                System.out.println(CharacterNames[i]);
+                        while(it.hasNext()){
+                            GC = (Player)it.next();
+                            if(GC.getName() == o.get(i)){
+                                GamePlayers.add(GC);
+                            }
+                        }           
             }
+                try{
+                        MapInformation finalMapInformation = loadMap(MapName);
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 this.dispose();       
             }else{
                 WarningLabel.setText("Please choose 4 characters !");
@@ -145,75 +168,76 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
       * @param NameOfMap the name of map
       * @return return an object of mapinformation
       */
-    public MapInformation loadMap(String NameOfMap){
+    public MapInformation loadMap(String NameOfMap) throws Exception{
         MapInformation M = new MapInformation();
-        
+        HashMap<Integer,TileInformation>  NewpathMap = new HashMap<Integer,TileInformation>();
+        LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<Integer,Integer>();
+        M = GameUtils.fetchParticularMapData(MapDirectory,NameOfMap);
+        ArrayList<Integer> S = M.getStartPointInfo();
+        Iterator it = S.iterator();
+        int i =0;
+        while(it.hasNext()){
+            HashMap HM = M.getPathMap();
+            TileInformation T = (TileInformation)HM.get((int)it.next());//it.next is the start point i is the user number
+            T.setPlayer(GamePlayers.get(i));
+            NewpathMap.put((int)it.next(), T);
+            NewuserLocation.put(i,(int)it.next());
+        }
+        M.setPathMap(NewpathMap);
+        M.setUserLocation(NewuserLocation);
         return M;
     }
     
     /**
      * this method is used to load characters
-     * @param NameOfCharacter name of the characters
      * @return a collection of characters
+     * @throws java.lang.Exception
      */
-    public LinkedList<Player> loadPlayers(String[] NameOfCharacter){
-        LinkedList<Player> collectionOfPlayers = new LinkedList();
-        
-        return collectionOfPlayers;
+    public String[] getCharacterNames () throws Exception{
+        collectionOfPlayers = GameUtils.getCharacterDetailsFromFile(CharacterDirectory);
+        String[] names = new String[collectionOfPlayers.size()];
+        Iterator it = collectionOfPlayers.iterator();
+        int i=0;
+        while(it.hasNext()){
+            GameCharacter GC = new GameCharacter();
+            GC = (GameCharacter)it.next();
+            names[i] = GC.getName();
+            i++;
+        }
+        return names;
     }
-     
+    
+    
+    
+    
     /**
      * this method is used to get name of file
      * @param strPath the entire directory of the file
      * @return names of total file in that floder 
      */
-    public String[] getNames(String strPath){
-        LinkedList list = new LinkedList();
-        ArrayList Name = new ArrayList ();
-        int num=1;
-        String strName = "";
-        File dir = new File(strPath);
-        File file[] = dir.listFiles();
-        for (int i = 0; i < file.length; i++) {
-            if (file[i].isDirectory())
-                list.add(file[i]);
-            else{
-                strName=file[i].getName().toString();
-                Name.add(strName);
-                num++;
-            }
-        }
-        File tmp;
-        while (!list.isEmpty()) {
-            tmp = (File) list.removeFirst();
-            if (tmp.isDirectory()) {
-                file = tmp.listFiles();
-                if (file == null)
-                    continue;
-                for (int i = 0; i < file.length; i++) {
-                    if (file[i].isDirectory())
-                        list.add(file[i]);
-                    else{
-                        strName=file[i].getName().toString();
-                        Name.add(strName);
-                        num++;
-                    }
-                }
-            } else {
-                strName=tmp.getName().toString();
-                Name.add(strName);
-                num++;
-            }
-        }
-        Iterator it = Name.iterator();
-        int i=0;
-        String[] fileName = new String [num];
+    public String[] getMapNames(String strPath) throws Exception{
+        TotalMaps = GameUtils.readMapInformation(strPath);
+        ArrayList<MapInformation> M = TotalMaps.getMapList();
+        String[] fileName = new String[M.size()];
+        Iterator it = M.iterator();
+        int i = 0;
         while(it.hasNext()){
-            String a =it.next().toString();
-            String b[] = a.split("\\.");
-            fileName[i]=b[0];
+            MapInformation Ma = (MapInformation) it.next();
+            fileName[i] = Ma.getMapName();
             i++;
         }
         return fileName;
     }
+    
+    public static void main(String[] args) {
+        InitCharacterAndMapPanel i;
+        try {
+            i = new InitCharacterAndMapPanel();
+            MapInformation M = i.loadMap("tesst1");
+            System.out.println("finished?");
+        } catch (Exception ex) {
+            Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+	}
 }
