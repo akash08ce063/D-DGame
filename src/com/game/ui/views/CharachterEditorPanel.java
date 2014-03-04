@@ -8,6 +8,7 @@ package com.game.ui.views;
 import com.game.models.Configuration;
 import com.game.models.GameBean;
 import com.game.models.GameCharacter;
+import com.game.models.TileInformation;
 import com.game.util.GameUtils;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +24,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,9 +40,12 @@ public class CharachterEditorPanel extends JPanel implements ActionListener {
 
     private JComboBox comboBox = null;
     private LinkedHashSet<GameCharacter> enemyChars = new LinkedHashSet<GameCharacter>();
-
-    public CharachterEditorPanel() {
+    private int location = -1;
+    private JCheckBox chkBox = null;
+    public CharachterEditorPanel(int location, JCheckBox chkBox) {
         doGui();
+        this.location = location;
+        this.chkBox = chkBox;
     }
 
     public void doGui() {
@@ -216,10 +221,17 @@ public class CharachterEditorPanel extends JPanel implements ActionListener {
                         comboBox.addItem(name);
                         comboBox.setSelectedItem(name);
                     }
+                    TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                    if(tileInfo == null){
+                        tileInfo = new TileInformation();
+                    }
+                    tileInfo.setEnemy(character);
+                    chkBox.setSelected(true);
                     this.revalidate();
                     return;
                 } catch (Exception e) {
                     System.out.println("CharachterEditorPanel : actionPerformed() : Some error occured " + e);
+                    e.printStackTrace();
                 }
 
             } else {
