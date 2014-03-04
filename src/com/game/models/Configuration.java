@@ -26,7 +26,12 @@ public class Configuration {
     public static final int ENEMIESTOBEKILLED = 3;
     public static final String PATH_FOR_USER_CHARACTERS = "./User Character/user.xml" ;
     public static final String PATH_FOR_ENEMY_CHARACTERS = "./Enemy Character/enemy.xml";
-    public static final String PATH_FOR_ITEMS = "./items.xml";
+    public static final String PATH_FOR_ITEMS = "./Items/items.xml";
+    public static final String PATH_FOR_WEAPONS = "./Items/weapons.xml";
+    public static final String PATH_FOR_RINGS = "./Items/rings.xml";
+    public static final String PATH_FOR_TREASURES = "./Items/treasure.xml";
+    public static final String PATH_FOR_POTIONS = "./Items/potion.xml";
+    public static final String PATH_FOR_ARMOURS = "./Items/armour.xml";
     public static final String PATH_FOR_IMAGES = "./Images/";
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
