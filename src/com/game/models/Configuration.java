@@ -6,6 +6,9 @@
 
 package com.game.models;
 
+import java.awt.Color;
+import static java.awt.Color.*;
+
 /**
  *
  * @author Kaushik
@@ -36,4 +39,8 @@ public class Configuration {
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
     public static final String PATH_FOR_MAP = "./Map/map.xml";
+    public static final Color  pathColor = LIGHT_GRAY;
+    public static final Color  startPointColor = blue;
+    public static final Color  endPointColor = GREEN;
+    
 }

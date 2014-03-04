@@ -9,13 +9,13 @@
     <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="weapon">
         <weaponType>Melee Weapon</weaponType>
         <attackRange>1</attackRange>
-        <attackPts>5</attackPts>
-        <name>Short Sword</name>
+        <attackPts>10</attackPts>
+        <name>Long Sword</name>
     </item>
     <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="weapon">
         <weaponType>Melee Weapon</weaponType>
         <attackRange>1</attackRange>
-        <attackPts>10</attackPts>
-        <name>Long Sword</name>
+        <attackPts>5</attackPts>
+        <name>Short Sword</name>
     </item>
 </items>
