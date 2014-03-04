@@ -9,6 +9,8 @@ package com.game.ui.views;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -65,8 +67,13 @@ public class MainPanel extends JFrame implements ActionListener {
         this.dispose();
          SwingUtilities.invokeLater(new Runnable() {          
 	            public void run() {
-	            	InitCharacterAndMapPanel icam = new InitCharacterAndMapPanel();
-	                icam.setVisible(true);
+                        try {
+                           InitCharacterAndMapPanel icam = new InitCharacterAndMapPanel();
+                           icam.setVisible(true);
+                        } catch (Exception ex) {
+                            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
 	            }
 	        });
     }
