@@ -140,15 +140,18 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
             List o = characterList.getSelectedValuesList();
             if(o.size()==4){
                 Player GC = new Player();
-                Iterator it = collectionOfPlayers.iterator();
                 for(int i =0;i<o.size();i++){
+                        Iterator it = collectionOfPlayers.iterator();
                         while(it.hasNext()){
                             GC = (Player)it.next();
+                            System.out.println(GC.getName());
+                            System.out.println(o.get(i));
                             if(GC.getName() == o.get(i)){
                                 gamePlayers.add(GC);
                             }
                         }           
             }
+            System.out.println(gamePlayers.size());
                 try{
                         MapInformation finalMapInformation = loadMap(mapName);
                         
@@ -175,17 +178,22 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<>();
         M = GameUtils.fetchParticularMapData(mapDirectory,NameOfMap);
         ArrayList<Integer> S = M.getStartPointInfo();
+        System.out.println("StartPointInfo" + S.size());
         Iterator it = S.iterator();
         int i =0;
         while(it.hasNext()){
             TreeMap HM = M.getPathMap();
-            TileInformation T = (TileInformation)HM.get((int)it.next());//it.next is the start point i is the user number
+            int j =(int)it.next();
+            TileInformation T = (TileInformation)HM.get(j);//it.next is the start point i is the user number
             T.setPlayer(gamePlayers.get(i));
-            NewpathMap.put((int)it.next(), T);
-            NewuserLocation.put(i,(int)it.next());
+            NewpathMap.put(j, T);
+            NewuserLocation.put(i,j);
+            i++;
         }
         M.setPathMap(NewpathMap);
         M.setUserLocation(NewuserLocation);
+        System.out.println(NewuserLocation);
+        System.out.println(NewpathMap);
         return M;
     }
     
@@ -230,15 +238,16 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         return fileName;
     }
     
-    public static void main(String[] args) {
-        InitCharacterAndMapPanel i;
+    public static void main(String[] args) throws Exception {
+        /*InitCharacterAndMapPanel i;
         try {
             i = new InitCharacterAndMapPanel();
-            MapInformation M = i.loadMap("Test1");
+            MapInformation M = i.loadMap("TestMap");
             System.out.println("finished?");
         } catch (Exception ex) {
             Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
+        InitCharacterAndMapPanel icam = new InitCharacterAndMapPanel();
 
 	}
 }
