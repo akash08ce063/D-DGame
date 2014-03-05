@@ -32,6 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -200,6 +201,7 @@ public class MapEditor extends JFrame implements ActionListener {
                     try {
                         wrapper.getMapList().add(GameBean.mapInfo);
                         GameUtils.writeMapInformation(wrapper, Configuration.PATH_FOR_MAP);
+                        JOptionPane.showMessageDialog(this, "Saved Successfully..");
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -209,6 +211,7 @@ public class MapEditor extends JFrame implements ActionListener {
             JButton src = (JButton) ae.getSource();
             String location = src.getActionCommand();
             GameBean.mapInfo.getPathMap().put(Integer.parseInt(location), null);
+            GameBean.mapInfo.getStartPointInfo().remove(new Integer(location));
             new ComplexDialog(location);
             TileInformation info = GameBean.mapInfo.getPathMap().get(Integer.parseInt(location));
             if (info != null) {

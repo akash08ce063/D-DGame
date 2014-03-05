@@ -142,6 +142,7 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
                 chkBox.setSelected(false);
             }
             GameBean.mapInfo.getPathMap().remove(location);
+            GameBean.mapInfo.getStartPointInfo().remove(new Integer(location));
         }
         else if(ae.getActionCommand().equalsIgnoreCase("Start Point")){
             TileInformation info = GameBean.mapInfo.getPathMap().get(location);
@@ -150,6 +151,7 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
             }
             info.setStartTile(true);
             GameBean.mapInfo.getPathMap().put(location, info);
+            GameBean.mapInfo.getStartPointInfo().add(location);
             checkBox[6].setSelected(true);
         }
         else if(ae.getActionCommand().equalsIgnoreCase("Stop Point")){
@@ -183,6 +185,7 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
     @Override
     public void windowClosing(WindowEvent we) {
         GameBean.mapInfo.getPathMap().remove(location);
+        GameBean.mapInfo.getStartPointInfo().remove(new Integer(location));
         this.dispose();
     }
 
