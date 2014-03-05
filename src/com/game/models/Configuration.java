@@ -31,4 +31,7 @@ public class Configuration {
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
     public static final String PATH_FOR_MAP = "./Map/map.xml";
+    public static final int INVENTORY_ROW = 14;
+    public static final int INVENTORY_COLUMN = 4;
+    public static final int INVENTORY_SIZE = INVENTORY_ROW * INVENTORY_COLUMN;
 }
