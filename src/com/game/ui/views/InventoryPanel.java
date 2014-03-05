@@ -24,13 +24,14 @@ import java.util.LinkedList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ *this class is for creating inventorypanel 
  * @author 韩信
  */
 public class InventoryPanel extends JDialog implements ActionListener{
@@ -62,6 +63,9 @@ public class InventoryPanel extends JDialog implements ActionListener{
         //initUI();
     }
     
+    /**
+     * this method is to initiate inventory panel UI
+     */
      public void initUI(){
          JPanel topPanel = new JPanel();
          JPanel bottomPanel = new JPanel();
@@ -177,9 +181,15 @@ public class InventoryPanel extends JDialog implements ActionListener{
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         pack();
+        //setLocationRelativeTo(frame);
         setVisible(true); 
      }
     
+     /**
+      * this method is used to make the weapon information
+      * @param W the weapon which is used to make information
+      * @return the information of the weapon
+      */
     public String makingInformationOfWeapon(Weapon W){
         String AttackPts = Integer.toString(W.getAttackPts());
         String AttackRange = Integer.toString(W.getAttackRange());
@@ -202,6 +212,11 @@ public class InventoryPanel extends JDialog implements ActionListener{
         return Information;
     }
     
+    /**
+     * this method is used to make information for armor
+     * @param A an object of armor 
+     * @return information of armor
+     */
     public String makingInformationOfArmor(Armour A){
         String ArmourPts = Integer.toString(A.getArmourPts());
         String ArmourName = A.getName();
@@ -216,20 +231,40 @@ public class InventoryPanel extends JDialog implements ActionListener{
         return Information;
     }
     
+    /**
+     * this method is put all itmes of CharacterInventory into an arrylist of itme
+     */
     public void putInventoriesIntoItem(){
         Armour A1 = CharacterInventory.getBoot();
         Armour A2 = CharacterInventory.getHelmet();
         LinkedList<Ring> R = CharacterInventory.getRing();
         Weapon W = CharacterInventory.getEquippedWeapon();
-        ItemsOfCharacter.add(W);
-        ItemsOfCharacter.add(A1);
-        ItemsOfCharacter.add(A2);
+        if(A1 != null){
+            ItemsOfCharacter.add(A1);
+        }
+        
+        if(W != null){
+            ItemsOfCharacter.add(W);
+        }
+        
+        if(A2 != null){
+            ItemsOfCharacter.add(A2);
+        }
+        
         Iterator it = R.iterator();
         while(it.hasNext()){
-            ItemsOfCharacter.add((Item)it.next());
+            Ring r = (Ring)it.next();
+            if(r != null){
+                ItemsOfCharacter.add((Item)r);
+            }
         }
     }
     
+    /**
+     * this method is used to make information for other items
+     * @param name
+     * @return the information of item
+     */
     public String makingInformationForOthers(String name){
         String information = "Name: " + name + "\n";
         return information;
@@ -308,12 +343,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
           in.setEquippedWeapon(w2);
           in.setRing(ring);
           in.setTotGold(new Long(178972));
-		 SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
-	            	InventoryPanel ex = new InventoryPanel(in);
-	                ex.setVisible(true);
-                        //System.out.println("lllll" + ex.CharacterInventory.getEquippedWeapon().getName());
-	            }
-	        });
+          InventoryPanel ex = new InventoryPanel(in);
+          
 	}
 }
