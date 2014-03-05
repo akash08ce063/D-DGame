@@ -12,6 +12,8 @@ import com.game.models.Player;
 import com.game.models.TileInformation;
 import com.game.util.GameUtils;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import static java.awt.Color.GREEN;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -43,7 +45,7 @@ public class MapPanel extends JFrame implements ActionListener {
     private int mapColumns;
     private JPanel mapPanel;
     private int commandCounter;
-    private JButton Tile[];
+    private JButton[] tile;
     private TileInformation tileInformation;
     private int numberofPlayers;
     private int numberofEnemys;
@@ -75,16 +77,17 @@ public class MapPanel extends JFrame implements ActionListener {
         getMapInformation(Map);
         mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(mapRows, mapColumns));
-        Tile = new JButton[mapRows * mapColumns];
+        tile = new JButton[mapRows * mapColumns];
         commandCounter = 1;
         for (int x = 0; x < mapRows; x++) {
             for (int y = 0; y < mapColumns; y++) {
-                Tile[commandCounter - 1] = new JButton();
-                (Tile[commandCounter - 1]).setActionCommand("" + commandCounter);
-                Tile[commandCounter - 1].addActionListener(this);
-                mapPanel.add(Tile[commandCounter - 1]);
+                tile[commandCounter - 1] = new JButton();
+                (tile[commandCounter - 1]).setActionCommand("" + commandCounter);
+                tile[commandCounter - 1].addActionListener(this);
+                mapPanel.add(tile[commandCounter - 1]);
                 tileInformation = pathMap.get(commandCounter);
                 if (tileInformation != null) {
+                    mapPathPoints();
                     if (tileInformation.isEndTile()) {
                         mapEndPoints();
                     }
@@ -95,9 +98,6 @@ public class MapPanel extends JFrame implements ActionListener {
                     if (tileInformation.getEnemy() != null) {
                         mapEnemyPoints(tileInformation);
                         numberofEnemys++;
-                    }
-                    else{
-                        mapPathPoints();
                     }
                 }
                 commandCounter++;
@@ -164,27 +164,24 @@ public class MapPanel extends JFrame implements ActionListener {
     //here is to build the map panel start points
     //put the heros at this tile
     public void mapStartPoints() {
-//        userLocation.put(currentPlayer,tileInformation.getLocation());
-        (Tile[commandCounter - 1]).setBackground(startPointColor);
-        
-        Tile[commandCounter - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
-        //currentPlayer++;
+        tile[commandCounter - 1].setBackground(startPointColor);     
+        tile[commandCounter - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
     }
 
     //here is to build the map panel end points
     public void mapEndPoints() {
-        (Tile[commandCounter - 1]).setBackground(endPointColor);
+        tile[commandCounter - 1].setBackground(endPointColor);
     }
 
     //here is to build the map panel enemy points
     public void mapEnemyPoints(TileInformation tileInformation) throws IOException {
-        (Tile[commandCounter - 1]).setBackground(enemyColor);
+        tile[commandCounter - 1].setBackground(enemyColor);
         ImageIcon icon = null;
     }
 
     //here is to build the map panel path points
     public void mapPathPoints() {
-        Tile[commandCounter - 1].setBackground(pathColor);
+        tile[commandCounter - 1].setBackground(pathColor);
     }
 
     @Override
@@ -205,7 +202,7 @@ public class MapPanel extends JFrame implements ActionListener {
                 turnPanel = new TurnPanel();
                 turnPanel.player1.addActionListener(new TurnControl());
                 turnPanel.player2.addActionListener(new TurnControl());
-                turnPanel.player3.addActionListener(new TurnControl());
+                //turnPanel.player3.addActionListener(new TurnControl());
                 turnPanel.player4.addActionListener(new TurnControl());
             }
             wrapperPanel2.add(informationPanel.tilePanel,BorderLayout.NORTH);
@@ -230,21 +227,7 @@ public class MapPanel extends JFrame implements ActionListener {
             
             if(pathMap.get(Integer.parseInt(e.getActionCommand())) != null)
             {
-                playerAvailable = false;
-//               int moveDistance = 0;
-//                
-//                //here has the moving problem to be fixed
-//                SortedMap<Integer,TileInformation> temp = null;
-//                if(userLocation.get(0) < Integer.parseInt(e.getActionCommand()))
-//                {
-//                    temp = pathMap.subMap(userLocation.get(0), Integer.parseInt(e.getActionCommand()));
-//                }
-//                else
-//                {
-//                    temp = pathMap.subMap(Integer.parseInt(e.getActionCommand()), userLocation.get(0));
-//                }
-//                moveDistance = temp.size();
-                
+                playerAvailable = false;           
                 boolean moveAble = false;
                 int [] a = new int[2];
                 int [] b = new int[2];
@@ -264,8 +247,8 @@ public class MapPanel extends JFrame implements ActionListener {
                     }
                     else
                     {
-                        Tile[userLocation.get(0) - 1].setIcon(null);
-                        Tile[Integer.parseInt(e.getActionCommand()) - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
+                        tile[userLocation.get(0) - 1].setIcon(null);
+                        tile[Integer.parseInt(e.getActionCommand()) - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
                         pathMap.get(userLocation.get(0)).setStartTile(false);
                         Player p = pathMap.get(userLocation.get(0)).getPlayer();
                         pathMap.get(userLocation.get(0)).setPlayer(null);

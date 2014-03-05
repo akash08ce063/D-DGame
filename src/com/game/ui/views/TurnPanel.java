@@ -31,7 +31,7 @@ public class TurnPanel extends JPanel
        
        player1.setText("player 1");
        player2.setText("player 2");
-       player3.setText("player 3");
+      // player3.setText("player 3");
        player4.setText("player 4");
        
        
