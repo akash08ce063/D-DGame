@@ -22,21 +22,24 @@ public class TurnPanel extends JPanel
     public JButton player2;
     public JButton player3;
     public JButton player4;
+    public JButton inventory;
     public TurnPanel()
     {
        player1 = new JButton();
        player2 = new JButton();
        //player3 = new JButton();
        player4 = new JButton();
+       inventory = new JButton();
        
        player1.setText("player 1");
        player2.setText("player 2");
       // player3.setText("player 3");
        player4.setText("player 4");
-       
+       inventory.setText("Inventory");
        
        setLayout(new GridLayout(4, 1,10,10));
        add(player1);
+       add(inventory);
        //add(player2);
        //add(player3);
        //add(player4);
