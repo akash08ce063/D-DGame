@@ -65,7 +65,7 @@ public class MainPanel extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent event){
         this.dispose();
-         SwingUtilities.invokeLater(new Runnable() {          
+        SwingUtilities.invokeLater(new Runnable() {          
 	            public void run() {
                         try {
                            InitCharacterAndMapPanel icam = new InitCharacterAndMapPanel();
