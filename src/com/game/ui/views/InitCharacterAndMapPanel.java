@@ -39,18 +39,18 @@ import javax.swing.ListSelectionModel;
  * @author 韩信
  */
 public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
-    private final String MapDirectory;
-    private final String CharacterDirectory;
+    private String MapDirectory;
+    private String CharacterDirectory;
     private JList MapList;
     private JList CharacterList;
     private Label WarningLabel; 
     
-    public String MapName = null; //is used to load map
+    public String MapName = null; //is used to save the name of map which is selected by user
     
     public ArrayList<GameCharacter> collectionOfPlayers = new ArrayList(); //is used to load players
     public MapInformation SelectedMap = new MapInformation();
-    public MapInformationWrapper TotalMaps = new MapInformationWrapper();
-    public ArrayList<Player> GamePlayers = new ArrayList(); 
+    public MapInformationWrapper TotalMaps = new MapInformationWrapper(); 
+    public ArrayList<Player> GamePlayers = new ArrayList();   //is used to save players selected by user
     
     public InitCharacterAndMapPanel() throws Exception{
         MapDirectory=Configuration.PATH_FOR_MAP;
@@ -170,8 +170,8 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
       */
     public MapInformation loadMap(String NameOfMap) throws Exception{
         MapInformation M = new MapInformation();
-        HashMap<Integer,TileInformation>  NewpathMap = new HashMap<Integer,TileInformation>();
-        LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<Integer,Integer>();
+        HashMap<Integer,TileInformation>  NewpathMap = new HashMap<>();
+        LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<>();
         M = GameUtils.fetchParticularMapData(MapDirectory,NameOfMap);
         ArrayList<Integer> S = M.getStartPointInfo();
         Iterator it = S.iterator();
@@ -189,7 +189,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
     }
     
     /**
-     * this method is used to load characters
+     * this method is used to load characters and get names
      * @return a collection of characters
      * @throws java.lang.Exception
      */
