@@ -6,9 +6,8 @@
 
 package com.game.ui.views;
 
-import com.game.models.Configuration;
 import com.game.models.GameBean;
-import com.game.util.GameUtils;
+import com.game.models.TileInformation;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +18,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -33,28 +34,31 @@ import javax.swing.border.LineBorder;
  *
  * @author Kaushik
  */
-public class ComplexDialog extends JDialog implements ActionListener{
+public class ComplexDialog extends JDialog implements ActionListener,WindowListener{
     private JPanel rightWrapper = null;
-    public ComplexDialog()
+    private int location = -1;
+    private JCheckBox checkBox[] = null;
+    public ComplexDialog(String location)
     {
+        this.location = Integer.parseInt(location);
+        TileInformation information = new TileInformation();
         doGui();
     }
     public void doGui()
     {
         setResizable(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(this);
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        env.getMaximumWindowBounds();
         JPanel wrapper = new JPanel(new GridBagLayout());
         JPanel leftWrapper = new JPanel();
         rightWrapper = new JPanel();
         rightWrapper.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         leftWrapper.setLayout(new BoxLayout(leftWrapper, BoxLayout.Y_AXIS));
-        String text[] = {"Enemy","Weapon","Armour","Ring","Potion","Treasure"};
-        JCheckBox checkBox[] = new JCheckBox[6];
-        JButton btn[] = new JButton[6];
-        JPanel panel[] = new JPanel[6];
+        String text[] = {"Enemy","Weapon","Armour","Ring","Potion","Treasure","Start Point","Stop Point"};
+        checkBox = new JCheckBox[text.length];
+        JButton btn[] = new JButton[text.length];
+        JPanel panel[] = new JPanel[text.length];
         for(int i = 0; i < checkBox.length; i++)
         {
             panel[i] = new JPanel();
@@ -62,16 +66,33 @@ public class ComplexDialog extends JDialog implements ActionListener{
             checkBox[i] = new JCheckBox(text[i], false);
             checkBox[i].setEnabled(false);
             checkBox[i].setPreferredSize(new Dimension(100,30));
-            btn[i] = new JButton("Edit "+text[i]+" >>");
+            if(i < 6){
+                btn[i] = new JButton("Edit "+text[i]+" >>");
+            }
+            else{
+                btn[i] = new JButton(text[i]);
+            }
             btn[i].setActionCommand(text[i]);
             btn[i].setPreferredSize(new Dimension(200,30));
-            btn[i].setActionCommand(text[i]);
             btn[i].addActionListener(this);
             panel[i].add(checkBox[i]);
             panel[i].add(btn[i]);
             leftWrapper.add(panel[i]);
             leftWrapper.add(Box.createVerticalStrut(30));
         }
+        JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 30,0));
+        JButton clearAll = new JButton("Clear All");
+        clearAll.setActionCommand("Clear");
+        clearAll.setPreferredSize(new Dimension(90, 30));
+        clearAll.addActionListener(this);
+        JButton saveButton = new JButton("Save");
+        saveButton.setActionCommand("Save");
+        saveButton.setPreferredSize(new Dimension(80, 30));
+        saveButton.addActionListener(this);
+        panel1.add(clearAll);
+        panel1.add(saveButton);
+        leftWrapper.add(panel1);
+        leftWrapper.add(Box.createVerticalStrut(30));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -85,11 +106,15 @@ public class ComplexDialog extends JDialog implements ActionListener{
         rightWrapper.setLayout(new CardLayout());
         JPanel dummyPanel = new JPanel();
         dummyPanel.add(new JLabel(" "));
-        CharachterEditorPanel charPanel = new CharachterEditorPanel();
+        CharachterEditorPanel charPanel = new CharachterEditorPanel(location,checkBox[0]);
         rightWrapper.add(dummyPanel,"Dummy");
         rightWrapper.add(charPanel,"Enemy");
-        WeaponEditorPanel weaponPanel = new WeaponEditorPanel();
+        WeaponEditorPanel weaponPanel = new WeaponEditorPanel(location,checkBox[1]);
         rightWrapper.add(weaponPanel,"Weapon");
+        rightWrapper.add(new ItemPanel("Ring",location,checkBox[3]),"Ring");
+        rightWrapper.add(new ItemPanel("Armour",location,checkBox[2]),"Armour");
+        rightWrapper.add(new ItemPanel("Potion",location,checkBox[4]),"Potion");
+        rightWrapper.add(new ItemPanel("Treasure",location,checkBox[5]),"Treasure");
         rightWrapper.setBackground(Color.GRAY);
 //        rightWrapper.add(new JButton(" sdfds"));
         wrapper.add(rightWrapper,c);
@@ -101,15 +126,84 @@ public class ComplexDialog extends JDialog implements ActionListener{
         setVisible(true);
      }
     public static void main(String[] args) throws Exception {
-        
-        GameBean.enemyDetails = GameUtils.getCharacterDetailsFromFile(Configuration.PATH_FOR_ENEMY_CHARACTERS);
-        GameBean.itemDetails = GameUtils.getAllItems();
-        ComplexDialog dialog = new ComplexDialog();
+//        GameBean.treasureDetails = GameUtils.getAllItems(Configuration.PATH_FOR_TREASURES);
+//        GameBean.ringDetails = GameUtils.getAllItems(Configuration.PATH_FOR_RINGS);
+//        GameBean.potionDetails = GameUtils.getAllItems(Configuration.PATH_FOR_POTIONS);
+//        GameBean.weaponDetails = GameUtils.getAllItems(Configuration.PATH_FOR_WEAPONS);
+        GameBean.doInit();
+        ComplexDialog dialog = new ComplexDialog(""+1);
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         CardLayout c = (CardLayout)rightWrapper.getLayout();
-        c.show(rightWrapper, ae.getActionCommand());
+        if(ae.getActionCommand().equalsIgnoreCase("Clear")){
+            for(JCheckBox chkBox : checkBox){
+                chkBox.setSelected(false);
+            }
+            GameBean.mapInfo.getPathMap().remove(location);
+        }
+        else if(ae.getActionCommand().equalsIgnoreCase("Start Point")){
+            TileInformation info = GameBean.mapInfo.getPathMap().get(location);
+            if(info == null){
+                info = new TileInformation();
+            }
+            info.setStartTile(true);
+            GameBean.mapInfo.getPathMap().put(location, info);
+            checkBox[6].setSelected(true);
+        }
+        else if(ae.getActionCommand().equalsIgnoreCase("Stop Point")){
+            TileInformation info = GameBean.mapInfo.getPathMap().get(location);
+            if(info == null){
+                info = new TileInformation();
+            }
+            info.setEndTile(true);
+            GameBean.mapInfo.getPathMap().put(location, info);
+            checkBox[7].setSelected(true);
+        }
+        else if(ae.getActionCommand().equalsIgnoreCase("Save")){
+            TileInformation info = GameBean.mapInfo.getPathMap().get(location);
+            if(info == null){
+                info = new TileInformation();
+            }
+            info.setLocation(location);
+            GameBean.mapInfo.getPathMap().put(location, info);
+            this.dispose();
+            return;
+        }
+        else{
+            c.show(rightWrapper, ae.getActionCommand());
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        GameBean.mapInfo.getPathMap().remove(location);
+        this.dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+//        System.out.println("hi..");
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
     }
 }

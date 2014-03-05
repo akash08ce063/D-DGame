@@ -6,6 +6,9 @@
 
 package com.game.models;
 
+import java.awt.Color;
+import static java.awt.Color.*;
+
 /**
  *
  * @author Kaushik
@@ -26,7 +29,12 @@ public class Configuration {
     public static final int ENEMIESTOBEKILLED = 3;
     public static final String PATH_FOR_USER_CHARACTERS = "./User Character/user.xml" ;
     public static final String PATH_FOR_ENEMY_CHARACTERS = "./Enemy Character/enemy.xml";
-    public static final String PATH_FOR_ITEMS = "./items.xml";
+    public static final String PATH_FOR_ITEMS = "./Items/items.xml";
+    public static final String PATH_FOR_WEAPONS = "./Items/weapons.xml";
+    public static final String PATH_FOR_RINGS = "./Items/rings.xml";
+    public static final String PATH_FOR_TREASURES = "./Items/treasure.xml";
+    public static final String PATH_FOR_POTIONS = "./Items/potion.xml";
+    public static final String PATH_FOR_ARMOURS = "./Items/armour.xml";
     public static final String PATH_FOR_IMAGES = "./Images/";
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
@@ -34,4 +42,9 @@ public class Configuration {
     public static final int INVENTORY_ROW = 14;
     public static final int INVENTORY_COLUMN = 4;
     public static final int INVENTORY_SIZE = INVENTORY_ROW * INVENTORY_COLUMN;
+    public static final Color  pathColor = new Color(64, 128, 128);
+    public static final Color  startPointColor = new Color(80,104,112);
+    public static final Color  endPointColor = new Color(113,152,39);
+    public static final Color  enemyColor = new Color(134,57,67);
+    
 }

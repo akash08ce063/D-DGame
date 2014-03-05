@@ -8,6 +8,7 @@ package com.game.ui.views;
 import com.game.models.Configuration;
 import com.game.models.GameBean;
 import com.game.models.Item;
+import com.game.models.TileInformation;
 import com.game.models.Weapon;
 import com.game.util.GameUtils;
 import java.awt.Color;
@@ -18,11 +19,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,8 +41,12 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
 
     private JComboBox comboBox = null;
     private JLabel validationMess = null;
-    public WeaponEditorPanel() {
+    private int location = -1;
+    private JCheckBox chkBox = null;
+    public WeaponEditorPanel(int location, JCheckBox chkBox) {
         doGui();
+        this.location = location;
+        this.chkBox = chkBox;
     }
 
     public void doGui() {
@@ -50,7 +57,7 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
         noteLbl.setAlignmentX(0);
         add(noteLbl);
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (Item item : GameBean.itemDetails) {
+        for (Item item : GameBean.weaponDetails) {
             if (item instanceof Weapon) {
                 model.addElement(((Weapon) item).getName());
             }
@@ -143,7 +150,7 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
         if (ae.getActionCommand().equalsIgnoreCase("dropDown")) {
             JPanel panel = (JPanel) comboBox.getParent().getComponent(4);
             String name = comboBox.getSelectedItem().toString();
-            for (Item item : GameBean.itemDetails) {
+            for (Item item : GameBean.weaponDetails) {
                 if (item instanceof Weapon) {
                     Weapon weapon = (Weapon) item;
                     if (weapon.getName().equalsIgnoreCase(name)) {
@@ -175,29 +182,31 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
                 weapon.setAttackPts(Integer.parseInt(attackPts));
                 weapon.setWeaponType(weaponType);
                 boolean weaponAlrdyPresent = false;
-                for (int i = 0; i < GameBean.itemDetails.size(); i++) {
-                    Item item = GameBean.itemDetails.get(i);
-                    if (item instanceof Weapon) {
-                        Weapon wpn = (Weapon) item;
-                        if (wpn.getName().equalsIgnoreCase(name)) {
-                            GameBean.itemDetails.remove(i);
-                            GameBean.itemDetails.add(i, weapon);
-                            weaponAlrdyPresent = true;
-                            break;
-                        }
-                    }
+                int position = GameUtils.getPositionOfWeaponItem(name);
+                if (GameBean.weaponDetails == null) {
+                    GameBean.weaponDetails = new ArrayList<Item>();
                 }
-                if (!weaponAlrdyPresent) {
-                    GameBean.itemDetails.add(weapon);
+                if(position != -1){
+                    GameBean.weaponDetails.remove(position);
                 }
+                GameBean.weaponDetails.add(weapon);
                 try {
-                    GameUtils.writeItemsToXML(GameBean.itemDetails);
+                    GameUtils.writeItemsToXML(GameBean.weaponDetails,Configuration.PATH_FOR_WEAPONS);
                     validationMess.setText("Saved Successfully..");
                     validationMess.setVisible(true);
                     if (!weaponAlrdyPresent) {
+                        comboBox.removeActionListener(this);
                         comboBox.addItem(name);
                         comboBox.setSelectedItem(name);
+                        comboBox.addActionListener(this);
                     }
+                    TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                    if(tileInfo == null){
+                        tileInfo = new TileInformation();
+                    }
+                    tileInfo.setWeapon(weapon);
+                    GameBean.mapInfo.getPathMap().put(location, tileInfo);
+                    chkBox.setSelected(true);
                     this.revalidate();
                     return;
                 } catch (Exception e) {

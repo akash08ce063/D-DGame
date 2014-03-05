@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.TreeMap;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,17 +23,17 @@ import javax.xml.bind.annotation.XmlElement;
 public class MapInformation {
     private String mapName;
     @XmlElement(name = "Path")
-    private HashMap<Integer,TileInformation> pathMap = new HashMap<Integer,TileInformation>();
+    private TreeMap<Integer,TileInformation> pathMap = new TreeMap<Integer,TileInformation>();
     @XmlElement(name = "UserLocation")
     private LinkedHashMap<Integer,Integer> userLocation = new LinkedHashMap<Integer, Integer>();
     private ArrayList<Integer> startPointInfo = new ArrayList<Integer>();
     private int rows;
     private int columns;
-    public HashMap<Integer, TileInformation> getPathMap() {
+    public TreeMap<Integer, TileInformation> getPathMap() {
         return pathMap;
     }
 
-    public void setPathMap(HashMap<Integer, TileInformation> pathMap) {
+    public void setPathMap(TreeMap<Integer, TileInformation> pathMap) {
         this.pathMap = pathMap;
     }
 

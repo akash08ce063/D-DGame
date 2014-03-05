@@ -6,12 +6,13 @@
 package com.game.ui.views;
 
 import com.game.models.Armour;
+import com.game.models.Configuration;
 import com.game.models.GameBean;
 import com.game.models.Item;
 import com.game.models.Potion;
 import com.game.models.Ring;
+import com.game.models.TileInformation;
 import com.game.models.Treasure;
-import com.game.models.Weapon;
 import com.game.util.GameUtils;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,11 +22,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -46,8 +49,10 @@ public class ItemPanel extends JPanel implements ActionListener {
     boolean treasurePanel = false;
     private JComboBox comboBox = null;
     private JLabel validationMess = null;
-
-    public ItemPanel(String type) {
+    private int location = -1;
+    private JCheckBox chkBox = null;
+    
+    public ItemPanel(String type,int location, JCheckBox chkBox) {
         this.type = type;
         if ("Ring".equalsIgnoreCase(type)) {
             ringPanel = true;
@@ -61,6 +66,9 @@ public class ItemPanel extends JPanel implements ActionListener {
             ringPanel = true;
             type = "Ring";
         }
+        this.location = location;
+        this.chkBox = chkBox;
+        doGui();
     }
 
     public void doGui() {
@@ -72,30 +80,24 @@ public class ItemPanel extends JPanel implements ActionListener {
         add(noteLbl);
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         if (ringPanel) {
-            for (Item item : GameBean.itemDetails) {
-                if (item instanceof Ring) {
-                    model.addElement(((Ring) item).getName());
-                }
+            for (Item item : GameBean.ringDetails) {
+                model.addElement(((Ring) item).getName());
             }
         } else if (armourPanel) {
-            for (Item item : GameBean.itemDetails) {
-                if (item instanceof Armour) {
-                    model.addElement(((Armour) item).getName());
-                }
+            for (Item item : GameBean.armourDetails) {
+                model.addElement(((Armour) item).getName());
             }
         } else if (potionPanel) {
-            for (Item item : GameBean.itemDetails) {
-                if (item instanceof Potion) {
-                    model.addElement(((Potion) item).getName());
-                }
+            for (Item item : GameBean.potionDetails) {
+                model.addElement(((Potion) item).getName());
             }
         } else if (treasurePanel) {
-            for (Item item : GameBean.itemDetails) {
-                if (item instanceof Treasure) {
-                    model.addElement(((Treasure) item).getName());
-                }
+            for (Item item : GameBean.treasureDetails) {
+                model.addElement(((Treasure) item).getName());
             }
         }
+        doCommonStuffForDropDown(model);
+        doCommonStuffForContent();
     }
 
     public void doCommonStuffForDropDown(DefaultComboBoxModel model) {
@@ -117,10 +119,10 @@ public class ItemPanel extends JPanel implements ActionListener {
         panel1.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.NORTHWEST;
         c.insets = new Insets(5, 5, 5, 5);
         c.weightx = 1;
-        c.weighty = 1;
+        c.weighty = 0.2;
         c.gridwidth = 2;
         JLabel dtlLbl = new JLabel(type + "Details : ");
         dtlLbl.setFont(new Font("Times New Roman", Font.BOLD, 15));
@@ -158,6 +160,10 @@ public class ItemPanel extends JPanel implements ActionListener {
         validationMess.setForeground(Color.red);
         validationMess.setVisible(false);
         panel1.add(validationMess, c);
+        c.gridy++;
+        c.weighty = 1;
+        c.weightx = 1;
+        panel1.add(new JPanel(), c);
         panel1.setBorder(LineBorder.createGrayLineBorder());
         add(panel1);
         add(Box.createVerticalGlue());
@@ -167,7 +173,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 2;
         JLabel incHealth = new JLabel("Health Increase Pts");
-        incHealth.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(incHealth, c);
         c.gridx = 1;
         JTextField incHealthTxt = new JTextField("");
@@ -176,7 +181,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 3;
         JLabel incArmour = new JLabel("Armour Increase Pts");
-        incArmour.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(incArmour, c);
         c.gridx = 1;
         JTextField incArmourTxt = new JTextField("");
@@ -185,7 +189,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridy = 4;
         c.gridx = 0;
         JLabel incAttack = new JLabel("Attack Increase Pts");
-        incAttack.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(incAttack, c);
         c.gridx = 1;
         JTextField incAttackTxt = new JTextField("");
@@ -197,7 +200,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 2;
         JLabel potionPts = new JLabel("Potion Pts");
-        potionPts.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(potionPts, c);
         c.gridx = 1;
         JTextField potionPtsTxt = new JTextField("");
@@ -209,7 +211,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 2;
         JLabel armourPts = new JLabel("Armour Pts");
-        armourPts.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(armourPts, c);
         c.gridx = 1;
         JTextField armourPtsTxt = new JTextField("");
@@ -221,7 +222,6 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 2;
         JLabel treasureVal = new JLabel("Treasure Value");
-        treasureVal.setFont(new Font("Times New Roman", Font.BOLD, 15));
         panel1.add(treasureVal, c);
         c.gridx = 1;
         JTextField treasureValTxt = new JTextField("");
@@ -230,55 +230,47 @@ public class ItemPanel extends JPanel implements ActionListener {
     }
 
     public void getRingDetailForName(String name, JPanel panel) {
-        for (Item item : GameBean.itemDetails) {
-            if (item instanceof Ring) {
-                Ring ring = (Ring) item;
-                if (ring.getName().equalsIgnoreCase(name)) {
-                    ((JTextField) panel.getComponent(2)).setText(name);
-                    ((JComboBox) panel.getComponent(4)).setSelectedItem(ring.getIncHealth());
-                    ((JTextField) panel.getComponent(6)).setText(Integer.toString(ring.getIncArmour()));
-                    ((JTextField) panel.getComponent(8)).setText(Integer.toString(ring.getIncAttack()));
-                    return;
-                }
+        for (Item item : GameBean.ringDetails) {
+            Ring ring = (Ring) item;
+            if (ring.getName().equalsIgnoreCase(name)) {
+                ((JTextField) panel.getComponent(2)).setText(name);
+                ((JTextField) panel.getComponent(4)).setText("" + ring.getIncHealth());
+                ((JTextField) panel.getComponent(6)).setText(Integer.toString(ring.getIncArmour()));
+                ((JTextField) panel.getComponent(8)).setText(Integer.toString(ring.getIncAttack()));
+                return;
             }
         }
     }
 
     public void getArmourDetailForName(String name, JPanel panel) {
-        for (Item item : GameBean.itemDetails) {
-            if (item instanceof Armour) {
-                Armour armour = (Armour) item;
-                if (armour.getName().equalsIgnoreCase(name)) {
-                    ((JTextField) panel.getComponent(2)).setText(name);
-                    ((JComboBox) panel.getComponent(4)).setSelectedItem(armour.getArmourPts());
-                    return;
-                }
+        for (Item item : GameBean.armourDetails) {
+            Armour armour = (Armour) item;
+            if (armour.getName().equalsIgnoreCase(name)) {
+                ((JTextField) panel.getComponent(2)).setText(name);
+                ((JTextField) panel.getComponent(4)).setText("" + armour.getArmourPts());
+                return;
             }
         }
     }
 
     public void getTreasureDetailForName(String name, JPanel panel) {
-        for (Item item : GameBean.itemDetails) {
-            if (item instanceof Treasure) {
-                Treasure treasure = (Treasure) item;
-                if (treasure.getName().equalsIgnoreCase(name)) {
-                    ((JTextField) panel.getComponent(2)).setText(name);
-                    ((JComboBox) panel.getComponent(4)).setSelectedItem(treasure.getValue());
-                    return;
-                }
+        for (Item item : GameBean.treasureDetails) {
+            Treasure treasure = (Treasure) item;
+            if (treasure.getName().equalsIgnoreCase(name)) {
+                ((JTextField) panel.getComponent(2)).setText(name);
+                ((JTextField) panel.getComponent(4)).setText("" + treasure.getValue());
+                return;
             }
         }
     }
 
     public void getPotionDetailForName(String name, JPanel panel) {
-        for (Item item : GameBean.itemDetails) {
-            if (item instanceof Potion) {
-                Potion potion = (Potion) item;
-                if (potion.getName().equalsIgnoreCase(name)) {
-                    ((JTextField) panel.getComponent(2)).setText(name);
-                    ((JComboBox) panel.getComponent(4)).setSelectedItem(potion.getPotionPts());
-                    return;
-                }
+        for (Item item : GameBean.potionDetails) {
+            Potion potion = (Potion) item;
+            if (potion.getName().equalsIgnoreCase(name)) {
+                ((JTextField) panel.getComponent(2)).setText(name);
+                ((JTextField) panel.getComponent(4)).setText("" + potion.getPotionPts());
+                return;
             }
         }
     }
@@ -289,109 +281,176 @@ public class ItemPanel extends JPanel implements ActionListener {
         String incAttack = ((JTextField) panel.getComponent(8)).getText();
         if (StringUtils.isNotBlank(name) && StringUtils.isNotBlank(incHealth) && StringUtils.isNotBlank(incArmour) && StringUtils.isNotBlank(incAttack)) {
             int position = GameUtils.getPositionOfRingItem(name);
-            if (position != -1) {
-                GameBean.itemDetails.remove(position);
-            } else {
-                Ring ring = new Ring();
-                ring.setName(name);
-                ring.setIncArmour(Integer.parseInt(incArmour));
-                ring.setIncHealth(Integer.parseInt(incHealth));
-                ring.setIncAttack(Integer.parseInt(incAttack));
-                boolean result = persistItemDetails(ring);
-                if(result){
-                    if(position == -1){
-                        comboBox.addItem(name);
-                        comboBox.setSelectedItem(name);
-                    }
-                }
-                else{
-                    validationMess.setText("Some error occured...");
-                    validationMess.setVisible(true);
-                }
+            if (GameBean.ringDetails == null) {
+                GameBean.ringDetails = new ArrayList<>();
             }
-        }
-        else{
+            if (position != -1) {
+                GameBean.ringDetails.remove(position);
+            }
+            Ring ring = new Ring();
+            ring.setName(name);
+            ring.setIncArmour(Integer.parseInt(incArmour));
+            ring.setIncHealth(Integer.parseInt(incHealth));
+            ring.setIncAttack(Integer.parseInt(incAttack));
+            GameBean.ringDetails.add(ring);
+            try {
+                GameUtils.writeItemsToXML(GameBean.ringDetails, Configuration.PATH_FOR_RINGS);
+                validationMess.setText("Saved Successfully..");
+                validationMess.setVisible(true);
+                if (position == -1) {
+                    comboBox.removeActionListener(this);
+                    comboBox.addItem(name);
+                    comboBox.setSelectedItem(name);
+                    comboBox.addActionListener(this);
+                }
+                TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                if (tileInfo == null) {
+                    tileInfo = new TileInformation();
+                }
+                tileInfo.setRing(ring);
+                GameBean.mapInfo.getPathMap().put(location, tileInfo);
+                chkBox.setSelected(true);
+            } catch (Exception e) {
+                validationMess.setText("Some error occured...");
+                e.printStackTrace();
+                validationMess.setVisible(true);
+            }
+        } else {
             validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
             validationMess.setVisible(true);
         }
-        this.revalidate();
     }
+
     public void persistArmourData(String name, JPanel panel) {
         String armourPts = ((JTextField) panel.getComponent(4)).getText();
         if (StringUtils.isNotBlank(armourPts) && StringUtils.isNotBlank(name)) {
             int position = GameUtils.getPositionOfArmourItem(name);
             if (position != -1) {
-                GameBean.itemDetails.remove(position);
-            } else {
-                Armour armour = new Armour();
-                armour.setName(name);
-                armour.setArmourPts(Integer.parseInt(armourPts));
-                boolean result = persistItemDetails(armour);
-                if(result){
-                    if(position == -1){
-                        comboBox.addItem(name);
-                        comboBox.setSelectedItem(name);
-                    }
-                }
-                else{
-                    validationMess.setText("Some error occured...");
-                    validationMess.setVisible(true);
-                }
+                GameBean.armourDetails.remove(position);
             }
-        }
-        else{
+            if (GameBean.armourDetails == null) {
+                GameBean.armourDetails = new ArrayList<>();
+            }
+            Armour armour = new Armour();
+            armour.setName(name);
+            armour.setArmourPts(Integer.parseInt(armourPts));
+            GameBean.armourDetails.add(armour);
+            try {
+                GameUtils.writeItemsToXML(GameBean.armourDetails, Configuration.PATH_FOR_ARMOURS);
+                validationMess.setText("Saved Successfully..");
+                validationMess.setVisible(true);
+                if (position == -1) {
+                    comboBox.removeActionListener(this);
+                    comboBox.addItem(name);
+                    comboBox.setSelectedItem(name);
+                    comboBox.addActionListener(this);
+                }
+                TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                if (tileInfo == null) {
+                    tileInfo = new TileInformation();
+                }
+                tileInfo.setArmour(armour);
+                GameBean.mapInfo.getPathMap().put(location, tileInfo);
+                chkBox.setSelected(true);
+            } catch (Exception e) {
+                validationMess.setText("Some error occured...");
+                e.printStackTrace();
+                validationMess.setVisible(true);
+            }
+        } else {
             validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
             validationMess.setVisible(true);
         }
-        this.revalidate();
-    }
-    public void persistPotionData(String name, JPanel panel) {
-        String armourPts = ((JTextField) panel.getComponent(4)).getText();
-        if (StringUtils.isNotBlank(armourPts) && StringUtils.isNotBlank(name)) {
-            int position = GameUtils.getPositionOfArmourItem(name);
-            if (position != -1) {
-                GameBean.itemDetails.remove(position);
-            } else {
-                Armour armour = new Armour();
-                armour.setName(name);
-                armour.setArmourPts(Integer.parseInt(armourPts));
-                boolean result = persistItemDetails(armour);
-                if(result){
-                    if(position == -1){
-                        comboBox.addItem(name);
-                        comboBox.setSelectedItem(name);
-                    }
-                }
-                else{
-                    validationMess.setText("Some error occured...");
-                    validationMess.setVisible(true);
-                }
-            }
-        }
-        else{
-            validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
-            validationMess.setVisible(true);
-        }
-        this.revalidate();
     }
 
-    public boolean persistItemDetails(Item item) {
-        boolean retValue = false;
-        try {
-            GameBean.itemDetails.add(item);
-            GameUtils.writeItemsToXML(GameBean.itemDetails);
-            validationMess.setText("Saved Successfully..");
+    public void persistPotionData(String name, JPanel panel) {
+        String potionPts = ((JTextField) panel.getComponent(4)).getText();
+        if (StringUtils.isNotBlank(potionPts) && StringUtils.isNotBlank(name)) {
+            int position = GameUtils.getPositionOfPotionItem(name);
+            if (position != -1) {
+                GameBean.potionDetails.remove(position);
+            }
+            if (GameBean.potionDetails == null) {
+                GameBean.potionDetails = new ArrayList<>();
+            }
+            Potion potion = new Potion();
+            potion.setName(name);
+            potion.setPotionPts(Integer.parseInt(potionPts));
+            GameBean.potionDetails.add(potion);
+            try {
+                GameUtils.writeItemsToXML(GameBean.potionDetails, Configuration.PATH_FOR_POTIONS);
+                validationMess.setText("Saved Successfully..");
+                validationMess.setVisible(true);
+                if (position == -1) {
+                    comboBox.removeActionListener(this);
+                    comboBox.addItem(name);
+                    comboBox.setSelectedItem(name);
+                    comboBox.addActionListener(this);
+                }
+                TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                if (tileInfo == null) {
+                    tileInfo = new TileInformation();
+                }
+                tileInfo.setPotion(potion);
+                GameBean.mapInfo.getPathMap().put(location, tileInfo);
+                chkBox.setSelected(true);
+            } catch (Exception e) {
+                validationMess.setText("Some error occured...");
+                e.printStackTrace();
+                validationMess.setVisible(true);
+            }
+        } else {
+            validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
             validationMess.setVisible(true);
-//            this.revalidate();
-            retValue = true;
-        } catch (Exception e) {
-            System.out.println("ItemPanel : persisitItemDetails() : Some error occured " + e);
         }
-        return retValue;
+    }
+
+    public void persistTreasure(String name, JPanel panel) {
+        String value = ((JTextField) panel.getComponent(4)).getText();
+        if (StringUtils.isNotBlank(value) && StringUtils.isNotBlank(name)) {
+            int position = GameUtils.getPositionOfTreasureItem(name);
+            if (position != -1) {
+                GameBean.treasureDetails.remove(position);
+            }
+            if (GameBean.treasureDetails == null) {
+                GameBean.treasureDetails = new ArrayList<>();
+            }
+            Treasure treasure = new Treasure();
+            treasure.setName(name);
+            treasure.setValue(Integer.parseInt(value));
+            GameBean.treasureDetails.add(treasure);
+            try {
+                GameUtils.writeItemsToXML(GameBean.treasureDetails, Configuration.PATH_FOR_TREASURES);
+                validationMess.setText("Saved Successfully..");
+                validationMess.setVisible(true);
+                if (position == -1) {
+                    comboBox.removeActionListener(this);
+                    comboBox.addItem(name);
+                    comboBox.setSelectedItem(name);
+                    comboBox.addActionListener(this);
+                }
+                TileInformation tileInfo = GameBean.mapInfo.getPathMap().get(location);
+                if (tileInfo == null) {
+                    tileInfo = new TileInformation();
+                }
+                tileInfo.setTreasure(treasure);
+                GameBean.mapInfo.getPathMap().put(location, tileInfo);
+                chkBox.setSelected(true);
+            } catch (Exception e) {
+                validationMess.setText("Some error occured...");
+                e.printStackTrace();
+                validationMess.setVisible(true);
+            }
+        } else {
+            validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
+            validationMess.setVisible(true);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        validationMess.setText("");
+        validationMess.setVisible(false);
         if (ae.getActionCommand().equalsIgnoreCase("dropDown")) {
             JPanel panel = (JPanel) comboBox.getParent().getComponent(4);
             String name = comboBox.getSelectedItem().toString();
@@ -408,56 +467,16 @@ public class ItemPanel extends JPanel implements ActionListener {
             JButton btn = (JButton) ae.getSource();
             JPanel panel = (JPanel) btn.getParent();
             String name = ((JTextField) panel.getComponent(2)).getText();
-
-            String weaponType = (String) (((JComboBox) panel.getComponent(4)).getSelectedItem());
-            String attackRnge = ((JTextField) panel.getComponent(6)).getText();
-            String attackPts = ((JTextField) panel.getComponent(8)).getText();
-//            JLabel message = ((JLabel) this.getComponent(5));
-            validationMess.setText("");
-            validationMess.setVisible(false);
-            if (StringUtils.isNotBlank(name) && StringUtils.isNotBlank(weaponType) && StringUtils.isNotBlank(attackRnge)
-                    && StringUtils.isNotBlank(attackPts)) {
-                validationMess.setVisible(false);
-                Weapon weapon = new Weapon();
-                weapon.setName(name);
-                weapon.setAttackRange(Integer.parseInt(attackRnge));
-                weapon.setAttackPts(Integer.parseInt(attackPts));
-                weapon.setWeaponType(weaponType);
-                boolean weaponAlrdyPresent = false;
-                for (int i = 0; i < GameBean.itemDetails.size(); i++) {
-                    Item item = GameBean.itemDetails.get(i);
-                    if (item instanceof Weapon) {
-                        Weapon wpn = (Weapon) item;
-                        if (wpn.getName().equalsIgnoreCase(name)) {
-                            GameBean.itemDetails.remove(i);
-                            GameBean.itemDetails.add(i, weapon);
-                            weaponAlrdyPresent = true;
-                            break;
-                        }
-                    }
-                }
-                if (!weaponAlrdyPresent) {
-                    GameBean.itemDetails.add(weapon);
-                }
-                try {
-                    GameUtils.writeItemsToXML(GameBean.itemDetails);
-                    validationMess.setText("Saved Successfully..");
-                    validationMess.setVisible(true);
-                    if (!weaponAlrdyPresent) {
-                        comboBox.addItem(name);
-                        comboBox.setSelectedItem(name);
-                    }
-                    this.revalidate();
-                    return;
-                } catch (Exception e) {
-                    System.out.println("WeaponEditorPanel : actionPerformed() : Some error occured " + e);
-                }
-
-            } else {
-                validationMess.setText("Pls enter all the fields or pls choose a weapon from the drop down");
-                validationMess.setVisible(true);
-                panel.revalidate();
+            if (ringPanel) {
+                persistRingData(name, panel);
+            } else if (armourPanel) {
+                persistArmourData(name, panel);
+            } else if (potionPanel) {
+                persistPotionData(name, panel);
+            } else if (treasurePanel) {
+                persistTreasure(name, panel);
             }
         }
+        this.revalidate();
     }
 }
