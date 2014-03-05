@@ -26,7 +26,7 @@ public class TurnPanel extends JPanel
     {
        player1 = new JButton();
        //player2 = new JButton();
-       player3 = new JButton();
+       //player3 = new JButton();
        player4 = new JButton();
        
        player1.setText("player 1");
