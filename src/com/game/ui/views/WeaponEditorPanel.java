@@ -205,6 +205,7 @@ public class WeaponEditorPanel extends JPanel implements ActionListener {
                         tileInfo = new TileInformation();
                     }
                     tileInfo.setWeapon(weapon);
+                    GameBean.mapInfo.getPathMap().put(location, tileInfo);
                     chkBox.setSelected(true);
                     this.revalidate();
                     return;

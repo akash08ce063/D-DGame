@@ -1,85 +1,285 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Map>
     <mapList>
-        <mapName>tesst1</mapName>
+        <mapName>Test1</mapName>
         <pathMap>
             <entry>
-                <key>1</key>
+                <key>7</key>
                 <value>
-                    <location>1</location>
+                    <location>7</location>
+                    <enemy>
+                        <imagePath>aasasasasa</imagePath>
+                        <name>Barbarian</name>
+                        <health>70</health>
+                        <armor>1</armor>
+                        <attackPts>2</attackPts>
+                        <attackRange>1</attackRange>
+                        <movement>1</movement>
+                    </enemy>
+                    <armour>
+                        <name>Iron Helmet</name>
+                        <armourPts>50</armourPts>
+                    </armour>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>8</key>
+                <value>
+                    <location>8</location>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>9</key>
+                <value>
+                    <location>9</location>
+                    <endTile>true</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>16</key>
+                <value>
+                    <location>16</location>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>25</key>
+                <value>
+                    <location>25</location>
+                    <treasure>
+                        <name>Large Loot</name>
+                        <value>70</value>
+                    </treasure>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>26</key>
+                <value>
+                    <location>26</location>
+                    <potion>
+                        <potionPts>60</potionPts>
+                        <name>Large Potion</name>
+                    </potion>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>27</key>
+                <value>
+                    <location>27</location>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>36</key>
+                <value>
+                    <location>36</location>
+                    <ring>
+                        <name>Gold Ring</name>
+                        <incHealth>1</incHealth>
+                        <incArmour>1</incArmour>
+                        <incAttack>1</incAttack>
+                    </ring>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>45</key>
+                <value>
+                    <location>45</location>
+                    <weapon>
+                        <weaponType>Ranged Weapon</weaponType>
+                        <attackRange>2</attackRange>
+                        <attackPts>5</attackPts>
+                        <name>Long Bow</name>
+                    </weapon>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>54</key>
+                <value>
+                    <location>54</location>
+                    <enemy>
+                        <imagePath>aasasasasa</imagePath>
+                        <name>Barbarian</name>
+                        <health>70</health>
+                        <armor>1</armor>
+                        <attackPts>2</attackPts>
+                        <attackRange>1</attackRange>
+                        <movement>1</movement>
+                    </enemy>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>63</key>
+                <value>
+                    <location>63</location>
                     <endTile>false</endTile>
                     <startTile>true</startTile>
-                </value>
-            </entry>
-            <entry>
-                <key>2</key>
-                <value>
-                    <location>2</location>
-                    <endTile>true</endTile>
-                    <startTile>false</startTile>
-                </value>
-            </entry>
-            <entry>
-                <key>3</key>
-                <value>
-                    <location>3</location>
-                    <endTile>true</endTile>
-                    <startTile>false</startTile>
                 </value>
             </entry>
         </pathMap>
-        <userLocation>
-            <entry>
-                <key>0</key>
-                <value>
-                    <location>1</location>
-                    <endTile>false</endTile>
-                    <startTile>true</startTile>
-                </value>
-            </entry>
-        </userLocation>
-        <rows>4</rows>
-        <columns>4</columns>
+        <userLocation/>
+        <rows>7</rows>
+        <columns>9</columns>
     </mapList>
     <mapList>
-        <mapName>tesst2</mapName>
+        <mapName>test2</mapName>
         <pathMap>
             <entry>
-                <key>1</key>
+                <key>7</key>
                 <value>
-                    <location>1</location>
+                    <location>7</location>
+                    <enemy>
+                        <imagePath>aasasasasa</imagePath>
+                        <name>Barbarian</name>
+                        <health>70</health>
+                        <armor>1</armor>
+                        <attackPts>2</attackPts>
+                        <attackRange>1</attackRange>
+                        <movement>1</movement>
+                    </enemy>
+                    <armour>
+                        <name>Iron Helmet</name>
+                        <armourPts>50</armourPts>
+                    </armour>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>8</key>
+                <value>
+                    <location>8</location>
+                    <ring>
+                        <name>Silver Ring</name>
+                        <incHealth>0</incHealth>
+                        <incArmour>0</incArmour>
+                        <incAttack>2</incAttack>
+                    </ring>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>9</key>
+                <value>
+                    <location>9</location>
+                    <endTile>true</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>16</key>
+                <value>
+                    <location>16</location>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>25</key>
+                <value>
+                    <location>25</location>
+                    <treasure>
+                        <name>Large Loot</name>
+                        <value>70</value>
+                    </treasure>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>26</key>
+                <value>
+                    <location>26</location>
+                    <potion>
+                        <potionPts>60</potionPts>
+                        <name>Large Potion</name>
+                    </potion>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>27</key>
+                <value>
+                    <location>27</location>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>36</key>
+                <value>
+                    <location>36</location>
+                    <ring>
+                        <name>Gold Ring</name>
+                        <incHealth>1</incHealth>
+                        <incArmour>1</incArmour>
+                        <incAttack>1</incAttack>
+                    </ring>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>45</key>
+                <value>
+                    <location>45</location>
+                    <weapon>
+                        <weaponType>Ranged Weapon</weaponType>
+                        <attackRange>2</attackRange>
+                        <attackPts>5</attackPts>
+                        <name>Long Bow</name>
+                    </weapon>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>54</key>
+                <value>
+                    <location>54</location>
+                    <enemy>
+                        <imagePath>aasasasasa</imagePath>
+                        <name>Barbarian</name>
+                        <health>70</health>
+                        <armor>1</armor>
+                        <attackPts>2</attackPts>
+                        <attackRange>1</attackRange>
+                        <movement>1</movement>
+                    </enemy>
+                    <endTile>false</endTile>
+                    <startTile>false</startTile>
+                </value>
+            </entry>
+            <entry>
+                <key>63</key>
+                <value>
+                    <location>63</location>
                     <endTile>false</endTile>
                     <startTile>true</startTile>
-                </value>
-            </entry>
-            <entry>
-                <key>2</key>
-                <value>
-                    <location>2</location>
-                    <endTile>true</endTile>
-                    <startTile>false</startTile>
-                </value>
-            </entry>
-            <entry>
-                <key>3</key>
-                <value>
-                    <location>3</location>
-                    <endTile>true</endTile>
-                    <startTile>false</startTile>
                 </value>
             </entry>
         </pathMap>
-        <userLocation>
-            <entry>
-                <key>0</key>
-                <value>
-                    <location>1</location>
-                    <endTile>false</endTile>
-                    <startTile>true</startTile>
-                </value>
-            </entry>
-        </userLocation>
-        <rows>4</rows>
-        <columns>4</columns>
+        <userLocation/>
+        <rows>7</rows>
+        <columns>9</columns>
     </mapList>
 </Map>

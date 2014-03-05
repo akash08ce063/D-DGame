@@ -308,7 +308,7 @@ public class ItemPanel extends JPanel implements ActionListener {
                     tileInfo = new TileInformation();
                 }
                 tileInfo.setRing(ring);
-                chkBox.setSelected(true);
+                GameBean.mapInfo.getPathMap().put(location, tileInfo);
                 chkBox.setSelected(true);
             } catch (Exception e) {
                 validationMess.setText("Some error occured...");

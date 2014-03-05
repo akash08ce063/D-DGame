@@ -226,6 +226,7 @@ public class CharachterEditorPanel extends JPanel implements ActionListener {
                         tileInfo = new TileInformation();
                     }
                     tileInfo.setEnemy(character);
+                    GameBean.mapInfo.getPathMap().put(location, tileInfo);
                     chkBox.setSelected(true);
                     this.revalidate();
                     return;

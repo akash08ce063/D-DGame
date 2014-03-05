@@ -39,8 +39,9 @@ public class Configuration {
     public static String pathForUserProgress = null;
     public static String weaponTypes[] = {"Melee Weapon","Ranged Weapon"};
     public static final String PATH_FOR_MAP = "./Map/map.xml";
-    public static final Color  pathColor = LIGHT_GRAY;
-    public static final Color  startPointColor = blue;
-    public static final Color  endPointColor = GREEN;
+    public static final Color  pathColor = new Color(64, 128, 128);
+    public static final Color  startPointColor = new Color(80,104,112);
+    public static final Color  endPointColor = new Color(113,152,39);
+    public static final Color  enemyColor = new Color(134,57,67);
     
 }

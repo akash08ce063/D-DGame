@@ -18,6 +18,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,7 +34,7 @@ import javax.swing.border.LineBorder;
  *
  * @author Kaushik
  */
-public class ComplexDialog extends JDialog implements ActionListener{
+public class ComplexDialog extends JDialog implements ActionListener,WindowListener{
     private JPanel rightWrapper = null;
     private int location = -1;
     private JCheckBox checkBox[] = null;
@@ -46,7 +48,7 @@ public class ComplexDialog extends JDialog implements ActionListener{
     {
         setResizable(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(this);
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         JPanel wrapper = new JPanel(new GridBagLayout());
         JPanel leftWrapper = new JPanel();
@@ -128,7 +130,8 @@ public class ComplexDialog extends JDialog implements ActionListener{
 //        GameBean.ringDetails = GameUtils.getAllItems(Configuration.PATH_FOR_RINGS);
 //        GameBean.potionDetails = GameUtils.getAllItems(Configuration.PATH_FOR_POTIONS);
 //        GameBean.weaponDetails = GameUtils.getAllItems(Configuration.PATH_FOR_WEAPONS);
-//        ComplexDialog dialog = new ComplexDialog(1);
+        GameBean.doInit();
+        ComplexDialog dialog = new ComplexDialog(""+1);
     }
 
     @Override
@@ -138,6 +141,7 @@ public class ComplexDialog extends JDialog implements ActionListener{
             for(JCheckBox chkBox : checkBox){
                 chkBox.setSelected(false);
             }
+            GameBean.mapInfo.getPathMap().remove(location);
         }
         else if(ae.getActionCommand().equalsIgnoreCase("Start Point")){
             TileInformation info = GameBean.mapInfo.getPathMap().get(location);
@@ -158,10 +162,48 @@ public class ComplexDialog extends JDialog implements ActionListener{
             checkBox[7].setSelected(true);
         }
         else if(ae.getActionCommand().equalsIgnoreCase("Save")){
+            TileInformation info = GameBean.mapInfo.getPathMap().get(location);
+            if(info == null){
+                info = new TileInformation();
+            }
+            info.setLocation(location);
+            GameBean.mapInfo.getPathMap().put(location, info);
             this.dispose();
+            return;
         }
         else{
             c.show(rightWrapper, ae.getActionCommand());
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        GameBean.mapInfo.getPathMap().remove(location);
+        this.dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+//        System.out.println("hi..");
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
     }
 }
