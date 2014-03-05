@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -39,22 +40,22 @@ import javax.swing.ListSelectionModel;
  * @author 韩信
  */
 public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
-    private String MapDirectory;
-    private String CharacterDirectory;
-    private JList MapList;
-    private JList CharacterList;
-    private Label WarningLabel; 
+    private String mapDirectory;
+    private String characterDirectory;
+    private JList mapList;
+    private JList characterList;
+    private Label warningLabel; 
     
-    public String MapName = null; //is used to save the name of map which is selected by user
+    private String mapName = null; //is used to save the name of map which is selected by user
     
     public ArrayList<GameCharacter> collectionOfPlayers = new ArrayList(); //is used to load players
-    public MapInformation SelectedMap = new MapInformation();
-    public MapInformationWrapper TotalMaps = new MapInformationWrapper(); 
-    public ArrayList<Player> GamePlayers = new ArrayList();   //is used to save players selected by user
+    public MapInformation selectedMap = new MapInformation();
+    public MapInformationWrapper totalMaps = new MapInformationWrapper(); 
+    public ArrayList<Player> gamePlayers = new ArrayList();   //is used to save players selected by user
     
     public InitCharacterAndMapPanel() throws Exception{
-        MapDirectory=Configuration.PATH_FOR_MAP;
-        CharacterDirectory=Configuration.PATH_FOR_USER_CHARACTERS;
+        mapDirectory=Configuration.PATH_FOR_MAP;
+        characterDirectory=Configuration.PATH_FOR_USER_CHARACTERS;
         initUI();
     }
     
@@ -65,57 +66,57 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         JPanel basicPanel = new JPanel();
         basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
         
-        JPanel Panel = new JPanel();
+        JPanel panel = new JPanel();
         
-        JPanel LeftPanel = new JPanel();
-        LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         
-        JPanel CharacterPanel = new JPanel();
-        CharacterPanel.setLayout(new BorderLayout());
-        CharacterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel characterPanel = new JPanel();
+        characterPanel.setLayout(new BorderLayout());
+        characterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JPanel RightPanel = new JPanel();
-        RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.Y_AXIS));
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         
-        JPanel MapsPanel = new JPanel();
-        MapsPanel.setLayout(new BorderLayout());
-        MapsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel mapsPanel = new JPanel();
+        mapsPanel.setLayout(new BorderLayout());
+        mapsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        Label SelectCharacterLabel = new Label ("SelectCharacter");
-        Label SelectMapsLabel = new Label ("SelectMaps");
-        WarningLabel = new Label ("Please choose 4 characters !");
-        WarningLabel.setVisible(true);
+        Label selectCharacterLabel = new Label ("SelectCharacter");
+        Label selectMapsLabel = new Label ("SelectMaps");
+        warningLabel = new Label ("Please choose 4 characters !");
+        warningLabel.setVisible(true);
         
-        String[] TotalNames1 = getCharacterNames();
-        CharacterList = new JList(TotalNames1);
+        String[] totalNames1 = getCharacterNames();
+        characterList = new JList(totalNames1);
  
-        String[] TotalNames2 = getMapNames(MapDirectory);
-        MapList = new JList(TotalNames2);
-        MapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        String[] totalNames2 = getMapNames(mapDirectory);
+        mapList = new JList(totalNames2);
+        mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        JScrollPane CharacterPane = new JScrollPane();
-        CharacterPane.getViewport().add(CharacterList);
-        CharacterPane.setPreferredSize(new Dimension(150, 100));
+        JScrollPane characterPane = new JScrollPane();
+        characterPane.getViewport().add(characterList);
+        characterPane.setPreferredSize(new Dimension(150, 100));
         
         JScrollPane MapPane = new JScrollPane();
-        MapPane.getViewport().add(MapList);
+        MapPane.getViewport().add(mapList);
         MapPane.setPreferredSize(new Dimension(150, 100));
         
         JButton SubmitButton = new JButton("Submit");
         SubmitButton.addActionListener(this);
         
-        LeftPanel.add(SelectCharacterLabel);
-        LeftPanel.add(CharacterPane);
+        leftPanel.add(selectCharacterLabel);
+        leftPanel.add(characterPane);
         
-        RightPanel.add(SelectMapsLabel);
-        RightPanel.add(MapPane);
+        rightPanel.add(selectMapsLabel);
+        rightPanel.add(MapPane);
         
-        Panel.add(LeftPanel);
-        Panel.add(RightPanel);
-        Panel.add(SubmitButton);
+        panel.add(leftPanel);
+        panel.add(rightPanel);
+        panel.add(SubmitButton);
         
-        basicPanel.add(Panel);
-        basicPanel.add(WarningLabel);
+        basicPanel.add(panel);
+        basicPanel.add(warningLabel);
         
         add(basicPanel);
         
@@ -133,10 +134,10 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
      */
     @Override
      public void actionPerformed(ActionEvent event){
-        if(MapList.getSelectedValue() != null && CharacterList.getSelectedValuesList() != null){
-            MapName = (String) MapList.getSelectedValue();
-            System.out.println(MapName);
-            List o = CharacterList.getSelectedValuesList();
+        if(mapList.getSelectedValue() != null && characterList.getSelectedValuesList() != null){
+            mapName = (String) mapList.getSelectedValue();
+            System.out.println(mapName);
+            List o = characterList.getSelectedValuesList();
             if(o.size()==4){
                 Player GC = new Player();
                 Iterator it = collectionOfPlayers.iterator();
@@ -144,22 +145,22 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
                         while(it.hasNext()){
                             GC = (Player)it.next();
                             if(GC.getName() == o.get(i)){
-                                GamePlayers.add(GC);
+                                gamePlayers.add(GC);
                             }
                         }           
             }
                 try{
-                        MapInformation finalMapInformation = loadMap(MapName);
+                        MapInformation finalMapInformation = loadMap(mapName);
                         
                     } catch (Exception ex) {
                         Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 this.dispose();       
             }else{
-                WarningLabel.setText("Please choose 4 characters !");
+                warningLabel.setText("Please choose 4 characters !");
             }
         }else{
-            WarningLabel.setText("please choose map and characters !");
+            warningLabel.setText("please choose map and characters !");
         }
     }
     
@@ -170,16 +171,16 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
       */
     public MapInformation loadMap(String NameOfMap) throws Exception{
         MapInformation M = new MapInformation();
-        HashMap<Integer,TileInformation>  NewpathMap = new HashMap<>();
+        TreeMap<Integer,TileInformation>  NewpathMap = new TreeMap<>();
         LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<>();
-        M = GameUtils.fetchParticularMapData(MapDirectory,NameOfMap);
+        M = GameUtils.fetchParticularMapData(mapDirectory,NameOfMap);
         ArrayList<Integer> S = M.getStartPointInfo();
         Iterator it = S.iterator();
         int i =0;
         while(it.hasNext()){
-            HashMap HM = M.getPathMap();
+            TreeMap HM = M.getPathMap();
             TileInformation T = (TileInformation)HM.get((int)it.next());//it.next is the start point i is the user number
-            T.setPlayer(GamePlayers.get(i));
+            T.setPlayer(gamePlayers.get(i));
             NewpathMap.put((int)it.next(), T);
             NewuserLocation.put(i,(int)it.next());
         }
@@ -194,7 +195,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
      * @throws java.lang.Exception
      */
     public String[] getCharacterNames () throws Exception{
-        collectionOfPlayers = GameUtils.getCharacterDetailsFromFile(CharacterDirectory);
+        collectionOfPlayers = GameUtils.getCharacterDetailsFromFile(characterDirectory);
         String[] names = new String[collectionOfPlayers.size()];
         Iterator it = collectionOfPlayers.iterator();
         int i=0;
@@ -216,8 +217,8 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
      * @return names of total file in that floder 
      */
     public String[] getMapNames(String strPath) throws Exception{
-        TotalMaps = GameUtils.readMapInformation(strPath);
-        ArrayList<MapInformation> M = TotalMaps.getMapList();
+        totalMaps = GameUtils.readMapInformation(strPath);
+        ArrayList<MapInformation> M = totalMaps.getMapList();
         String[] fileName = new String[M.size()];
         Iterator it = M.iterator();
         int i = 0;
@@ -233,7 +234,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         InitCharacterAndMapPanel i;
         try {
             i = new InitCharacterAndMapPanel();
-            MapInformation M = i.loadMap("tesst1");
+            MapInformation M = i.loadMap("Test1");
             System.out.println("finished?");
         } catch (Exception ex) {
             Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
