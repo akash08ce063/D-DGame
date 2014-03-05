@@ -35,28 +35,29 @@ import javax.swing.SwingUtilities;
  * @author 韩信
  */
 public class InventoryPanel extends JDialog implements ActionListener{
-    public Inventory CharacterInventory = new Inventory();
-    public ArrayList<Item> ItemsOfCharacter = new ArrayList<>();
-    public Weapon CurrentWeapon = new Weapon();
-    public HashMap<Integer,Item> InventoryButtonMap = new HashMap<>(); 
-    public String ItemInformation = null;
-    public int InventoryRow ;
-    public int InventoryColumn;
-    public int InventorySize;
-    public JTextArea InformationLable;
-    public JButton Equip;
-    public JButton Unequip;
-    public JButton Use;
+    private int inventoryRow ;
+    private int inventoryColumn;
+    private int inventorySize;
+    
+    public Inventory characterInventory = new Inventory();
+    public ArrayList<Item> itemsOfCharacter = new ArrayList<>();
+    public Weapon currentWeapon = new Weapon();
+    public HashMap<Integer,Item> inventoryButtonMap = new HashMap<>(); 
+    public String itemInformation = null;
+    public JTextArea informationLable;
+    public JButton equip;
+    public JButton unequip;
+    public JButton use;
     
     public InventoryPanel(Inventory Inventories){
-        CharacterInventory = Inventories;
-        InventoryRow = Configuration.INVENTORY_ROW;
-        InventoryColumn = Configuration.INVENTORY_COLUMN;
-        InventorySize = Configuration.INVENTORY_SIZE;
-        InformationLable = new JTextArea();
-        Equip = new JButton("Equip");
-        Unequip = new JButton("Unequip");
-        Use = new JButton("Use");
+        characterInventory = Inventories;
+        inventoryRow = Configuration.INVENTORY_ROW;
+        inventoryColumn = Configuration.INVENTORY_COLUMN;
+        inventorySize = Configuration.INVENTORY_SIZE;
+        informationLable = new JTextArea();
+        equip = new JButton("Equip");
+        unequip = new JButton("Unequip");
+        use = new JButton("Use");
         putInventoriesIntoItem();
         initUI();
         //ItemInformation = "name:\n" + "Damage:\n" + "AttackRange:\n";
@@ -74,50 +75,50 @@ public class InventoryPanel extends JDialog implements ActionListener{
          JPanel[] ButtonPanel = new JPanel[59];
          basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
          
-         JButton[] Buttons = new JButton[InventorySize];
-         JTextArea Money = new JTextArea("Gold:" + CharacterInventory.getTotGold().toString());
+         JButton[] Buttons = new JButton[inventorySize];
+         JTextArea Money = new JTextArea("Gold:" + characterInventory.getTotGold().toString());
          
-         Equip.setEnabled(false);
-         Equip.addActionListener(new ActionListener() {
+         equip.setEnabled(false);
+         equip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                CharacterInventory.setEquippedWeapon(CurrentWeapon);
-                Equip.setEnabled(false);
-                Unequip.setEnabled(true);
+                characterInventory.setEquippedWeapon(currentWeapon);
+                equip.setEnabled(false);
+                unequip.setEnabled(true);
             }
         });
          
-         Unequip.setEnabled(false);
-         Unequip.addActionListener(new ActionListener() {
+         unequip.setEnabled(false);
+         unequip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 Weapon nullWeapon = new Weapon();
-                CharacterInventory.setEquippedWeapon(nullWeapon);
-                Equip.setEnabled(true);
-                Unequip.setEnabled(false);
+                characterInventory.setEquippedWeapon(nullWeapon);
+                equip.setEnabled(true);
+                unequip.setEnabled(false);
             }
         });
          
-         Use.setEnabled(false);
+         use.setEnabled(false);
          
          RightBottomPanel.setLayout(new GridLayout(4, 1, 5, 5));
          RightBottomPanel.add(Money);
-         RightBottomPanel.add(Equip);
-         RightBottomPanel.add(Unequip);
-         RightBottomPanel.add(Use);
+         RightBottomPanel.add(equip);
+         RightBottomPanel.add(unequip);
+         RightBottomPanel.add(use);
          
          
          JScrollPane Pane = new JScrollPane();
         
-         InformationLable.setPreferredSize(new Dimension(400,100));
+         informationLable.setPreferredSize(new Dimension(400,100));
          
          Pane.setPreferredSize(new Dimension(450,450));
          
-         topPanel.setLayout(new GridLayout(InventoryRow, InventoryColumn, 0, 0));
+         topPanel.setLayout(new GridLayout(inventoryRow, inventoryColumn, 0, 0));
          
-         Iterator it = ItemsOfCharacter.iterator();
+         Iterator it = itemsOfCharacter.iterator();
          int i = 0;
-         for(; i < ItemsOfCharacter.size(); i++){
+         for(; i < itemsOfCharacter.size(); i++){
              Item in = (Item)it.next();
-             InventoryButtonMap.put(i,in);
+             inventoryButtonMap.put(i,in);
              ButtonPanel[i] = new JPanel();
              Buttons[i] = new JButton();
              if(in instanceof Weapon){
@@ -160,7 +161,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
              } 
          }
          
-         for(; i < InventorySize; i++){
+         for(; i < inventorySize; i++){
              Buttons[i] = new JButton();
              ButtonPanel[i] = new JPanel();
              Buttons[i].setPreferredSize(new Dimension(90,50));
@@ -169,7 +170,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
          }
          Pane.getViewport().add(topPanel);
          
-         bottomPanel.add(InformationLable);
+         bottomPanel.add(informationLable);
          bottomPanel.add(RightBottomPanel);
          
          basicPanel.add(Pane);
@@ -235,27 +236,27 @@ public class InventoryPanel extends JDialog implements ActionListener{
      * this method is put all itmes of CharacterInventory into an arrylist of itme
      */
     public void putInventoriesIntoItem(){
-        Armour A1 = CharacterInventory.getBoot();
-        Armour A2 = CharacterInventory.getHelmet();
-        LinkedList<Ring> R = CharacterInventory.getRing();
-        Weapon W = CharacterInventory.getEquippedWeapon();
+        Armour A1 = characterInventory.getBoot();
+        Armour A2 = characterInventory.getHelmet();
+        LinkedList<Ring> R = characterInventory.getRing();
+        Weapon W = characterInventory.getEquippedWeapon();
         if(A1 != null){
-            ItemsOfCharacter.add(A1);
+            itemsOfCharacter.add(A1);
         }
         
         if(W != null){
-            ItemsOfCharacter.add(W);
+            itemsOfCharacter.add(W);
         }
         
         if(A2 != null){
-            ItemsOfCharacter.add(A2);
+            itemsOfCharacter.add(A2);
         }
         
         Iterator it = R.iterator();
         while(it.hasNext()){
             Ring r = (Ring)it.next();
             if(r != null){
-                ItemsOfCharacter.add((Item)r);
+                itemsOfCharacter.add((Item)r);
             }
         }
     }
@@ -274,39 +275,39 @@ public class InventoryPanel extends JDialog implements ActionListener{
     public void actionPerformed(ActionEvent event){
         int command = Integer.parseInt(event.getActionCommand());
         System.out.println(command);
-        Item item = InventoryButtonMap.get(command);
+        Item item = inventoryButtonMap.get(command);
         
         if(item instanceof Weapon){
             Weapon w = (Weapon) item;
-            InformationLable.setText(makingInformationOfWeapon(w));
-            if (w.getName() != CharacterInventory.getEquippedWeapon().getName() || CharacterInventory.getEquippedWeapon().getName() == null){
-                Equip.setEnabled(true);
-                Unequip.setEnabled(true);
-                Use.setEnabled(false);
-                CurrentWeapon = w;
+            informationLable.setText(makingInformationOfWeapon(w));
+            if (w.getName() != characterInventory.getEquippedWeapon().getName() || characterInventory.getEquippedWeapon().getName() == null){
+                equip.setEnabled(true);
+                unequip.setEnabled(true);
+                use.setEnabled(false);
+                currentWeapon = w;
             }else{
-                Equip.setEnabled(false);
-                Unequip.setEnabled(true);
-                Use.setEnabled(false);
+                equip.setEnabled(false);
+                unequip.setEnabled(true);
+                use.setEnabled(false);
             }
         }else if (item instanceof Armour) {
             Armour a = (Armour) item;
-            InformationLable.setText(makingInformationOfArmor(a));
-            Equip.setEnabled(true);
-            Unequip.setEnabled(true);
-            Use.setEnabled(false);
+            informationLable.setText(makingInformationOfArmor(a));
+            equip.setEnabled(true);
+            unequip.setEnabled(true);
+            use.setEnabled(false);
         }else if (item instanceof Ring) {
             Ring r = (Ring) item;
-            InformationLable.setText(makingInformationForOthers(r.getName()));
-            Equip.setEnabled(true);
-            Unequip.setEnabled(true);
-            Use.setEnabled(false);
+            informationLable.setText(makingInformationForOthers(r.getName()));
+            equip.setEnabled(true);
+            unequip.setEnabled(true);
+            use.setEnabled(false);
         }else if (item instanceof Potion){
             Potion p = (Potion) item;
-            InformationLable.setText(makingInformationForOthers(p.getName()));
-            Equip.setEnabled(false);
-            Unequip.setEnabled(false);
-            Use.setEnabled(true);
+            informationLable.setText(makingInformationForOthers(p.getName()));
+            equip.setEnabled(false);
+            unequip.setEnabled(false);
+            use.setEnabled(true);
         }
     }
     
