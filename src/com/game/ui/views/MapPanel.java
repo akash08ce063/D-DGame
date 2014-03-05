@@ -12,8 +12,6 @@ import com.game.models.Player;
 import com.game.models.TileInformation;
 import com.game.util.GameUtils;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import static java.awt.Color.GREEN;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -23,14 +21,13 @@ import javax.swing.JButton;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -54,6 +51,7 @@ public class MapPanel extends JFrame implements ActionListener {
     private InformationPanel informationPanel;
     private TurnPanel turnPanel;
     private boolean playerAvailable = false;
+    private ImageIcon icon = null;
 
     public MapPanel() {
     }
@@ -164,8 +162,23 @@ public class MapPanel extends JFrame implements ActionListener {
     //here is to build the map panel start points
     //put the heros at this tile
     public void mapStartPoints() {
-        tile[commandCounter - 1].setBackground(startPointColor);     
-        tile[commandCounter - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
+        tile[commandCounter - 1].setBackground(startPointColor); 
+        Player player = pathMap.get(commandCounter).getPlayer();
+        if(StringUtils.isNotBlank(player.getImagePath())){
+            try {
+                icon = GameUtils.shrinkImage(player.getImagePath(), 60, 60);
+            } catch (IOException ex) {
+                Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            try {
+                icon = GameUtils.shrinkImage("Hero1.gif", 60, 60);
+            } catch (IOException ex) {
+                Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            tile[commandCounter - 1].setIcon(icon);
     }
 
     //here is to build the map panel end points
@@ -248,7 +261,7 @@ public class MapPanel extends JFrame implements ActionListener {
                     else
                     {
                         tile[userLocation.get(0) - 1].setIcon(null);
-                        tile[Integer.parseInt(e.getActionCommand()) - 1].setIcon(new ImageIcon("C:\\Users\\Administrator\\Documents\\GitHub\\D-DGame\\Images\\Hero1.gif"));
+                        tile[Integer.parseInt(e.getActionCommand()) - 1].setIcon(icon);
                         pathMap.get(userLocation.get(0)).setStartTile(false);
                         Player p = pathMap.get(userLocation.get(0)).getPlayer();
                         pathMap.get(userLocation.get(0)).setPlayer(null);
