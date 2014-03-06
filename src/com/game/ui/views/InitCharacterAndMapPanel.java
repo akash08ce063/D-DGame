@@ -138,7 +138,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
             mapName = (String) mapList.getSelectedValue();
             System.out.println(mapName);
             List o = characterList.getSelectedValuesList();
-            if(o.size()==4){
+            if(o.size()==1){
                 Player GC = new Player();
                 for(int i =0;i<o.size();i++){
                         Iterator it = collectionOfPlayers.iterator();
@@ -154,7 +154,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
             System.out.println(gamePlayers.size());
                 try{
                         MapInformation finalMapInformation = loadMap(mapName);
-                        
+                        MapPanel Map = new MapPanel(finalMapInformation);
                     } catch (Exception ex) {
                         Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -183,10 +183,12 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         int i =0;
         while(it.hasNext()){
             TreeMap HM = M.getPathMap();
+            System.out.println(HM);
             int j =(int)it.next();
             TileInformation T = (TileInformation)HM.get(j);//it.next is the start point i is the user number
             T.setPlayer(gamePlayers.get(i));
-            NewpathMap.put(j, T);
+            HM.put(j, T);
+            NewpathMap=HM;
             NewuserLocation.put(i,j);
             i++;
         }
