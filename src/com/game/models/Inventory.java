@@ -61,5 +61,13 @@ public class Inventory {
     public void setTotGold(Long totGold) {
         this.totGold = totGold;
     }
+
+    public LinkedList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(LinkedList<Item> items) {
+        this.items = items;
+    }
     
 }
