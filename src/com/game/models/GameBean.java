@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class GameBean {
     public static ArrayList<GameCharacter> enemyDetails = null;
-    public static ArrayList<Player> playerDetails = null;
+    public static ArrayList<GameCharacter> playerDetails = null;
     public static ArrayList<Item> weaponDetails = null;
     public static ArrayList<Item> ringDetails = null;
     public static ArrayList<Item> potionDetails = null;
@@ -25,7 +25,6 @@ public class GameBean {
     public static MapInformation mapInfo= null;
     
     public static void doInit() throws Exception{
-        GameBean.enemyDetails = GameUtils.getCharacterDetailsFromFile(Configuration.PATH_FOR_ENEMY_CHARACTERS);
         File file = new File(Configuration.PATH_FOR_ARMOURS);
         if(file.exists()){
             GameBean.armourDetails = GameUtils.getAllItems(Configuration.PATH_FOR_ARMOURS);
@@ -60,6 +59,20 @@ public class GameBean {
         }
         else{
             GameBean.weaponDetails  = new ArrayList<>();
+        }
+        file = new File(Configuration.PATH_FOR_USER_CHARACTERS);
+        if(file.exists()){
+            GameBean.playerDetails = GameUtils.getCharacterDetailsFromFile(Configuration.PATH_FOR_USER_CHARACTERS);
+        }
+        else{
+            GameBean.playerDetails  = new ArrayList<>();
+        }
+        file = new File(Configuration.PATH_FOR_ENEMY_CHARACTERS);
+        if(file.exists()){
+            GameBean.enemyDetails = GameUtils.getCharacterDetailsFromFile(Configuration.PATH_FOR_ENEMY_CHARACTERS);
+        }
+        else{
+            GameBean.enemyDetails  = new ArrayList<>();
         }
     }
 }

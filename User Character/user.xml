@@ -2,72 +2,100 @@
 <characters>
     <character>
         <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
-            <imagePath></imagePath>
+            <imagePath>Hero3.gif</imagePath>
+            <name>Paladin</name>
+            <health>40</health>
+            <armor>2</armor>
+            <attackPts>3</attackPts>
+            <attackRange>1</attackRange>
+            <movement>1</movement>
+            <type>Paladin</type>
+            <strength>5</strength>
+            <vitality>3</vitality>
+            <dexterity>2</dexterity>
+            <wisdom>4</wisdom>
+            <level>1</level>
+            <exp>0</exp>
+            <inventory>
+                <equippedWeapon>
+                    <weaponType>Melee Weapon</weaponType>
+                    <attackRange>1</attackRange>
+                    <attackPts>10</attackPts>
+                    <name>Long Sword</name>
+                </equippedWeapon>
+            </inventory>
+        </character>
+        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
+            <imagePath>Hero2.gif</imagePath>
             <name>Barbarian</name>
             <health>50</health>
-            <armor>1</armor>
-            <attackPts>2</attackPts>
+            <armor>2</armor>
+            <attackPts>3</attackPts>
             <attackRange>1</attackRange>
             <movement>1</movement>
             <type>Barbarian</type>
-            <strength>2</strength>
-            <vitality>1</vitality>
-            <dexterity>1</dexterity>
-            <wisdom>1</wisdom>
-            <level>1</level>
-            <exp>1</exp>
-            <inventory/>
-        </character>
-        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
-            <imagePath></imagePath>
-            <name>Paladin</name>
-            <health>50</health>
-            <armor>1</armor>
-            <attackPts>1</attackPts>
-            <attackRange>2</attackRange>
-            <movement>1</movement>
-            <type>Paladin</type>
-            <strength>1</strength>
-            <vitality>1</vitality>
+            <strength>5</strength>
+            <vitality>3</vitality>
             <dexterity>2</dexterity>
             <wisdom>1</wisdom>
             <level>1</level>
-            <exp>1</exp>
-            <inventory/>
+            <exp>0</exp>
+            <inventory>
+                <equippedWeapon>
+                    <weaponType>Melee Weapon</weaponType>
+                    <attackRange>1</attackRange>
+                    <attackPts>5</attackPts>
+                    <name>Short Sword</name>
+                </equippedWeapon>
+            </inventory>
         </character>
         <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
-            <imagePath></imagePath>
-            <name>Sorcerer</name>
-            <health>50</health>
-            <armor>2</armor>
-            <attackPts>1</attackPts>
-            <attackRange>1</attackRange>
-            <movement>1</movement>
-            <type>Sorcerer</type>
-            <strength>1</strength>
-            <vitality>1</vitality>
-            <dexterity>1</dexterity>
-            <wisdom>2</wisdom>
-            <level>1</level>
-            <exp>1</exp>
-            <inventory/>
-        </character>
-        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
-            <imagePath></imagePath>
-            <name>Dwarf</name>
+            <imagePath>Hero4.gif</imagePath>
+            <name>Fighter</name>
             <health>60</health>
             <armor>1</armor>
-            <attackPts>1</attackPts>
+            <attackPts>4</attackPts>
             <attackRange>1</attackRange>
             <movement>1</movement>
-            <type>Dwarf</type>
-            <strength>1</strength>
-            <vitality>2</vitality>
-            <dexterity>1</dexterity>
-            <wisdom>1</wisdom>
+            <type>Fighter</type>
+            <strength>3</strength>
+            <vitality>3</vitality>
+            <dexterity>2</dexterity>
+            <wisdom>2</wisdom>
             <level>1</level>
-            <exp>1</exp>
-            <inventory/>
+            <exp>0</exp>
+            <inventory>
+                <equippedWeapon>
+                    <weaponType>Melee Weapon</weaponType>
+                    <attackRange>1</attackRange>
+                    <attackPts>10</attackPts>
+                    <name>Long Sword</name>
+                </equippedWeapon>
+            </inventory>
+        </character>
+        <character xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="player">
+            <imagePath>Hero1.gif</imagePath>
+            <name>Necromancer</name>
+            <health>30</health>
+            <armor>3</armor>
+            <attackPts>2</attackPts>
+            <attackRange>1</attackRange>
+            <movement>1</movement>
+            <type>Necromancer</type>
+            <strength>3</strength>
+            <vitality>2</vitality>
+            <dexterity>3</dexterity>
+            <wisdom>5</wisdom>
+            <level>1</level>
+            <exp>0</exp>
+            <inventory>
+                <equippedWeapon>
+                    <weaponType>Melee Weapon</weaponType>
+                    <attackRange>1</attackRange>
+                    <attackPts>5</attackPts>
+                    <name>Short Sword</name>
+                </equippedWeapon>
+            </inventory>
         </character>
     </character>
 </characters>
