@@ -31,7 +31,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 /**
- *this class is for creating inventorypanel 
+ *this class is for creating inventory panel 
  * @author 韩信
  */
 public class InventoryPanel extends JDialog implements ActionListener{
@@ -76,7 +76,13 @@ public class InventoryPanel extends JDialog implements ActionListener{
          basicPanel.setLayout(new BoxLayout(basicPanel, BoxLayout.Y_AXIS));
          
          JButton[] Buttons = new JButton[inventorySize];
-         JTextArea Money = new JTextArea("Gold:" + characterInventory.getTotGold().toString());
+         
+         JTextArea Money;
+         if(characterInventory.getTotGold() != null){
+            Money = new JTextArea("Gold:" + characterInventory.getTotGold().toString());
+         }else{
+            Money = new JTextArea("Gold: ");
+         }
          
          equip.setEnabled(false);
          equip.addActionListener(new ActionListener() {
@@ -252,12 +258,14 @@ public class InventoryPanel extends JDialog implements ActionListener{
             itemsOfCharacter.add(A2);
         }
         
+        if(R != null){
         Iterator it = R.iterator();
         while(it.hasNext()){
             Ring r = (Ring)it.next();
             if(r != null){
                 itemsOfCharacter.add((Item)r);
             }
+        }
         }
     }
     
@@ -314,7 +322,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
       public static void main(String[] args) {
 		// TODO Auto-generated method stub
           final Inventory in = new Inventory();
-          Weapon w = new Weapon();
+         /* Weapon w = new Weapon();
           w.setAttackPts(12);
           w.setAttackRange(2);
           w.setName("Sword");
@@ -343,7 +351,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
           in.setBoot(a);
           in.setEquippedWeapon(w2);
           in.setRing(ring);
-          in.setTotGold(new Long(178972));
+          in.setTotGold(new Long(178972));*/
           InventoryPanel ex = new InventoryPanel(in);
           
 	}
