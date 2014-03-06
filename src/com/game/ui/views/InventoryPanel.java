@@ -38,6 +38,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     private int inventoryRow ;
     private int inventoryColumn;
     private int inventorySize;
+    //public  static final Inventory in = new Inventory();
     
     public Inventory characterInventory = new Inventory();
     public ArrayList<Item> itemsOfCharacter = new ArrayList<>();
@@ -59,7 +60,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
         unequip = new JButton("Unequip");
         use = new JButton("Use");
         putInventoriesIntoItem();
-        initUI();
+        initUI(Inventories);
         //ItemInformation = "name:\n" + "Damage:\n" + "AttackRange:\n";
         //initUI();
     }
@@ -67,7 +68,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     /**
      * this method is to initiate inventory panel UI
      */
-     public void initUI(){
+     public void initUI(final Inventory Inventories){
          JPanel topPanel = new JPanel();
          JPanel bottomPanel = new JPanel();
          JPanel RightBottomPanel = new JPanel();
@@ -87,7 +88,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
          equip.setEnabled(false);
          equip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                characterInventory.setEquippedWeapon(currentWeapon);
+                Inventories.setEquippedWeapon(currentWeapon);
                 equip.setEnabled(false);
                 unequip.setEnabled(true);
             }
@@ -97,7 +98,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
          unequip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 Weapon nullWeapon = new Weapon();
-                characterInventory.setEquippedWeapon(nullWeapon);
+                Inventories.setEquippedWeapon(nullWeapon);
                 equip.setEnabled(true);
                 unequip.setEnabled(false);
             }
@@ -321,7 +322,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     
       public static void main(String[] args) {
 		// TODO Auto-generated method stub
-          final Inventory in = new Inventory();
+         Inventory in = new Inventory();
          Weapon w = new Weapon();
           w.setAttackPts(12);
           w.setAttackRange(2);
@@ -353,6 +354,6 @@ public class InventoryPanel extends JDialog implements ActionListener{
           in.setRing(ring);
           in.setTotGold(new Long(178972));
           InventoryPanel ex = new InventoryPanel(in);
-          
+          System.out.println("current weapon:" + in.getEquippedWeapon().getName());
 	}
 }
