@@ -322,7 +322,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
       public static void main(String[] args) {
 		// TODO Auto-generated method stub
           final Inventory in = new Inventory();
-         /* Weapon w = new Weapon();
+         Weapon w = new Weapon();
           w.setAttackPts(12);
           w.setAttackRange(2);
           w.setName("Sword");
@@ -351,7 +351,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
           in.setBoot(a);
           in.setEquippedWeapon(w2);
           in.setRing(ring);
-          in.setTotGold(new Long(178972));*/
+          in.setTotGold(new Long(178972));
           InventoryPanel ex = new InventoryPanel(in);
           
 	}
