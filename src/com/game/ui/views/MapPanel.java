@@ -7,6 +7,7 @@ package com.game.ui.views;
 
 import com.game.models.Configuration;
 import static com.game.models.Configuration.*;
+import com.game.models.Inventory;
 import com.game.models.MapInformation;
 import com.game.models.Player;
 import com.game.models.TileInformation;
@@ -52,6 +53,7 @@ public class MapPanel extends JFrame implements ActionListener {
     private TurnPanel turnPanel;
     private boolean playerAvailable = false;
     private ImageIcon icon = null;
+    static private Inventory inventory = null;
 
     public MapPanel() {
     }
@@ -217,6 +219,7 @@ public class MapPanel extends JFrame implements ActionListener {
                 turnPanel.player2.addActionListener(new TurnControl());
                 //turnPanel.player3.addActionListener(new TurnControl());
                 turnPanel.player4.addActionListener(new TurnControl());
+                turnPanel.inventory.addActionListener(new InventoryControl());
             }
             wrapperPanel2.add(informationPanel.tilePanel,BorderLayout.NORTH);
             wrapperPanel2.add(turnPanel,BorderLayout.SOUTH);
@@ -290,6 +293,17 @@ public class MapPanel extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent ae)
         {
             playerAvailable = true;
+        }
+        
+    }
+    
+    public class InventoryControl implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+           inventory = pathMap.get(userLocation.get(0)).getPlayer().getInventory();
+           InventoryPanel inventoryPanel = new InventoryPanel(inventory);
         }
         
     }
