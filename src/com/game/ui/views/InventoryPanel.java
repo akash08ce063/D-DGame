@@ -56,11 +56,12 @@ public class InventoryPanel extends JDialog implements ActionListener{
         inventoryColumn = Configuration.INVENTORY_COLUMN;
         inventorySize = Configuration.INVENTORY_SIZE;
         informationLable = new JTextArea();
+        informationLable.setEditable(false);
         equip = new JButton("Equip");
         unequip = new JButton("Unequip");
         use = new JButton("Use");
         putInventoriesIntoItem();
-        initUI(Inventories);
+        initUI();
         //ItemInformation = "name:\n" + "Damage:\n" + "AttackRange:\n";
         //initUI();
     }
@@ -68,7 +69,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     /**
      * this method is to initiate inventory panel UI
      */
-     public void initUI(final Inventory Inventories){
+     public void initUI(){
          JPanel topPanel = new JPanel();
          JPanel bottomPanel = new JPanel();
          JPanel RightBottomPanel = new JPanel();
@@ -84,11 +85,13 @@ public class InventoryPanel extends JDialog implements ActionListener{
          }else{
             Money = new JTextArea("Gold: ");
          }
+         Money.setEditable(false);
          
          equip.setEnabled(false);
          equip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                Inventories.setEquippedWeapon(currentWeapon);
+                characterInventory.setEquippedWeapon(currentWeapon);
+                MapPanel.inventory = characterInventory;
                 equip.setEnabled(false);
                 unequip.setEnabled(true);
             }
@@ -98,7 +101,18 @@ public class InventoryPanel extends JDialog implements ActionListener{
          unequip.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 Weapon nullWeapon = new Weapon();
-                Inventories.setEquippedWeapon(nullWeapon);
+                LinkedList<Item> li = characterInventory.getItems();
+                if(li != null){
+                    li.add(characterInventory.getEquippedWeapon());
+                }else{
+                    li = new LinkedList<>();
+                    li.add(characterInventory.getEquippedWeapon());
+                }
+                characterInventory.setEquippedWeapon(nullWeapon);
+                characterInventory.setItems(li);
+                System.out.println("add item" + li);
+                MapPanel.inventory = characterInventory;
+                System.out.println("add item" + MapPanel.inventory);
                 equip.setEnabled(true);
                 unequip.setEnabled(false);
             }
@@ -135,7 +149,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
                 System.out.println(w.getName());
                 Buttons[i].setActionCommand(Integer.toString(i));
                 Buttons[i].addActionListener(this);
-                Buttons[i].setPreferredSize(new Dimension(90,50));
+                Buttons[i].setPreferredSize(new Dimension(130,50));
                 ButtonPanel[i].add(Buttons[i]);            
                 topPanel.add(ButtonPanel[i]);
              }else if ( in instanceof Armour){
@@ -144,7 +158,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
                  Buttons[i].setText(a.getName());
                  Buttons[i].setActionCommand(Integer.toString(i));
                  Buttons[i].addActionListener(this);
-                 Buttons[i].setPreferredSize(new Dimension(90,50));
+                 Buttons[i].setPreferredSize(new Dimension(130,50));
                  ButtonPanel[i].add(Buttons[i]);            
                  topPanel.add(ButtonPanel[i]);
              }else if ( in instanceof Potion){
@@ -153,7 +167,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
                  Buttons[i].setText(p.getName());
                  Buttons[i].setActionCommand(Integer.toString(i));
                  Buttons[i].addActionListener(this);
-                 Buttons[i].setPreferredSize(new Dimension(90,50));
+                 Buttons[i].setPreferredSize(new Dimension(130,50));
                  ButtonPanel[i].add(Buttons[i]);            
                  topPanel.add(ButtonPanel[i]);
              }else if ( in instanceof Ring){
@@ -162,7 +176,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
                  Buttons[i].setText(r.getName());
                  Buttons[i].setActionCommand(Integer.toString(i));
                  Buttons[i].addActionListener(this);
-                 Buttons[i].setPreferredSize(new Dimension(90,50));
+                 Buttons[i].setPreferredSize(new Dimension(130,50));
                  ButtonPanel[i].add(Buttons[i]);            
                  topPanel.add(ButtonPanel[i]);
              } 
@@ -171,7 +185,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
          for(; i < inventorySize; i++){
              Buttons[i] = new JButton();
              ButtonPanel[i] = new JPanel();
-             Buttons[i].setPreferredSize(new Dimension(90,50));
+             Buttons[i].setPreferredSize(new Dimension(130,50));
              ButtonPanel[i].add(Buttons[i]);            
              topPanel.add(ButtonPanel[i]);
          }
@@ -183,6 +197,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
          basicPanel.add(Pane);
          basicPanel.add(bottomPanel);
          add(basicPanel);
+         setModalityType(ModalityType.APPLICATION_MODAL);
         setTitle("Inventory Panel");
         setSize(550,800);
         setResizable(false);
@@ -247,6 +262,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
         Armour A2 = characterInventory.getHelmet();
         LinkedList<Ring> R = characterInventory.getRing();
         Weapon W = characterInventory.getEquippedWeapon();
+        LinkedList<Item> I = characterInventory.getItems();
+        System.out.println(I);
         if(A1 != null){
             itemsOfCharacter.add(A1);
         }
@@ -260,12 +277,26 @@ public class InventoryPanel extends JDialog implements ActionListener{
         }
         
         if(R != null){
-        Iterator it = R.iterator();
+            Iterator it = R.iterator();
         while(it.hasNext()){
             Ring r = (Ring)it.next();
             if(r != null){
                 itemsOfCharacter.add((Item)r);
             }
+        }
+        
+        if(I != null){
+            it = I.iterator();
+        while(it.hasNext()){
+            Item item = (Item)it.next();
+            if(item != null){
+                if (item instanceof Weapon){
+                Weapon w = (Weapon)item;
+                itemsOfCharacter.add(w);
+                System.out.println("have a weapon");
+            }
+            }
+        }
         }
         }
     }
