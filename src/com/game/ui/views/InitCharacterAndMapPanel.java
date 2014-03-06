@@ -84,7 +84,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         
         Label selectCharacterLabel = new Label ("SelectCharacter");
         Label selectMapsLabel = new Label ("SelectMaps");
-        warningLabel = new Label ("Please choose 4 characters !");
+        warningLabel = new Label ("Please choose 1 characters !");
         warningLabel.setVisible(true);
         
         String[] totalNames1 = getCharacterNames();
@@ -160,7 +160,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
                     }
                 this.dispose();       
             }else{
-                warningLabel.setText("Please choose 4 characters !");
+                warningLabel.setText("Please choose 1 characters !");
             }
         }else{
             warningLabel.setText("please choose map and characters !");
