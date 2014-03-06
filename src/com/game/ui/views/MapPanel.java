@@ -53,7 +53,7 @@ public class MapPanel extends JFrame implements ActionListener {
     private TurnPanel turnPanel;
     private boolean playerAvailable = false;
     private ImageIcon icon = null;
-    static private Inventory inventory = null;
+    static Inventory inventory = null;
 
     public MapPanel() {
     }
@@ -304,6 +304,7 @@ public class MapPanel extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
            inventory = pathMap.get(userLocation.get(0)).getPlayer().getInventory();
            InventoryPanel inventoryPanel = new InventoryPanel(inventory);
+            System.out.println("currnet weapon:" + inventory.getEquippedWeapon().getName());
         }
         
     }
