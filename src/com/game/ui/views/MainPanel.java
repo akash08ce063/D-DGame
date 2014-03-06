@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -108,7 +109,19 @@ public class MainPanel extends JFrame implements ActionListener {
 	            }
 	        });
         }else if (command == 1){
-            
+             try {
+            GameBean.doInit();
+            if (GameBean.weaponDetails.size() > 0) {
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                frame.add(new PlayerEditor());
+                frame.setName("Frame");
+                frame.pack();
+                frame.setVisible(true);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PlayerEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }else if (command == 2){
             try {
                 GameBean.doInit();
