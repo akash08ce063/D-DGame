@@ -6,9 +6,11 @@
 
 package com.game.ui.views;
 
+import com.game.models.GameBean;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
@@ -37,7 +39,16 @@ public class MainPanel extends JFrame implements ActionListener {
         functionPanel.setLayout(new BoxLayout(functionPanel, BoxLayout.Y_AXIS));
         
         JButton startGame = new JButton("Strat");
+        startGame.setActionCommand("0");
         startGame.addActionListener(this);
+        
+        JButton creatCharater = new JButton("Creat \n" + "Character");
+        creatCharater.setActionCommand("1");
+        creatCharater.addActionListener(this);
+        
+        JButton mapBuilder = new JButton("Map \n" + "Builder");
+        mapBuilder.setActionCommand("2");
+        mapBuilder.addActionListener(this);
         
         JButton exitGame = new JButton("exit");
         exitGame.addActionListener(new ActionListener() {
@@ -47,6 +58,10 @@ public class MainPanel extends JFrame implements ActionListener {
         });
         
         functionPanel.add(startGame);
+        functionPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        functionPanel.add(creatCharater);
+        functionPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        functionPanel.add(mapBuilder);
         functionPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         functionPanel.add(exitGame);
         basicPanel.add(functionPanel);
@@ -64,8 +79,10 @@ public class MainPanel extends JFrame implements ActionListener {
      * @param event 
      */
     public void actionPerformed(ActionEvent event){
-        this.dispose();
-        SwingUtilities.invokeLater(new Runnable() {          
+        int command = Integer.parseInt(event.getActionCommand());
+        if(command == 0){
+            this.dispose();
+            SwingUtilities.invokeLater(new Runnable() {          
 	            public void run() {
                         try {
                            InitCharacterAndMapPanel icam = new InitCharacterAndMapPanel();
@@ -76,6 +93,25 @@ public class MainPanel extends JFrame implements ActionListener {
 
 	            }
 	        });
+        }else if (command == 1){
+            
+        }else if (command == 2){
+            try {
+                GameBean.doInit();
+            } catch (Exception ex) {
+                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new MapEditor();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        }
     }
     
     public static void main(String[] args) {
