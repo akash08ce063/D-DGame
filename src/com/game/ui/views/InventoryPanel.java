@@ -52,6 +52,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     
     public InventoryPanel(Inventory Inventories){
         characterInventory = Inventories;
+        System.out.println("Item: " + Inventories.getItems());
         inventoryRow = Configuration.INVENTORY_ROW;
         inventoryColumn = Configuration.INVENTORY_COLUMN;
         inventorySize = Configuration.INVENTORY_SIZE;
@@ -112,7 +113,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                 characterInventory.setItems(li);
                 System.out.println("add item" + li);
                 MapPanel.inventory = characterInventory;
-                System.out.println("add item" + MapPanel.inventory);
+                System.out.println("add item" + MapPanel.inventory.getItems());
+                System.out.println("wtf");
                 equip.setEnabled(true);
                 unequip.setEnabled(false);
             }
@@ -263,7 +265,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
         LinkedList<Ring> R = characterInventory.getRing();
         Weapon W = characterInventory.getEquippedWeapon();
         LinkedList<Item> I = characterInventory.getItems();
-        System.out.println(I);
+        System.out.println("item:" + I);
         if(A1 != null){
             itemsOfCharacter.add(A1);
         }
@@ -284,9 +286,10 @@ public class InventoryPanel extends JDialog implements ActionListener{
                 itemsOfCharacter.add((Item)r);
             }
         }
+        }
         
         if(I != null){
-            it = I.iterator();
+            Iterator it = I.iterator();
         while(it.hasNext()){
             Item item = (Item)it.next();
             if(item != null){
@@ -296,7 +299,6 @@ public class InventoryPanel extends JDialog implements ActionListener{
                 System.out.println("have a weapon");
             }
             }
-        }
         }
         }
     }
@@ -322,7 +324,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
             informationLable.setText(makingInformationOfWeapon(w));
             if (w.getName() != characterInventory.getEquippedWeapon().getName() || characterInventory.getEquippedWeapon().getName() == null){
                 equip.setEnabled(true);
-                unequip.setEnabled(true);
+                unequip.setEnabled(false);
                 use.setEnabled(false);
                 currentWeapon = w;
             }else{
