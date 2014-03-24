@@ -11,5 +11,11 @@ package com.game.models;
  * @author Kaushik
  */
 public abstract class Item {
-    
+    private int itemID;
+    public int getItemID(){
+        return itemID;
+    }
+    public void setItemID(int itemID){
+        this.itemID = itemID;
+    }
 }
