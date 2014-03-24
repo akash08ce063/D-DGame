@@ -18,7 +18,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class Inventory {
     private Weapon equippedWeapon;
     private Armour helmet;
-    private LinkedList<Ring> ring;
+    private Armour chest;
+    private Armour gloves;
+    private Armour bracers;
+    private Armour belt;
+    private Armour shield;
+    private Ring ring;
     private Armour boot;
     private Long totGold;
     private LinkedList<Item> items;
@@ -38,11 +43,51 @@ public class Inventory {
         this.helmet = helmet;
     }
 
-    public LinkedList<Ring> getRing() {
+    public Armour getChest() {
+        return chest;
+    }
+
+    public void setChest(Armour chest) {
+        this.chest = chest;
+    }
+    
+    public Armour getShield() {
+        return shield;
+    }
+
+    public void setShield(Armour shield) {
+        this.shield = shield;
+    }
+    
+    public Armour getGloves() {
+        return gloves;
+    }
+
+    public void setGloves(Armour gloves) {
+        this.gloves = gloves;
+    }
+    
+    public Armour getBracers() {
+        return bracers;
+    }
+
+    public void setBracers(Armour bracers) {
+        this.bracers = bracers;
+    }
+    
+    public Armour getBelt() {
+        return belt;
+    }
+
+    public void setBelt(Armour belt) {
+        this.belt = belt;
+    }
+    
+    public Ring getRing() {
         return ring;
     }
 
-    public void setRing(LinkedList<Ring> ring) {
+    public void setRing(Ring ring) {
         this.ring = ring;
     }
 
