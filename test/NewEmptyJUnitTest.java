@@ -9,16 +9,21 @@ import com.game.models.Configuration;
 import com.game.models.GameBean;
 import com.game.models.Inventory;
 import com.game.models.Item;
+import com.game.models.MapBuilder;
+import com.game.models.MapInformation;
 import com.game.models.Player;
+import com.game.models.TileInformation;
 import com.game.models.Weapon;
 import com.game.ui.views.InitCharacterAndMapPanel;
 import com.game.ui.views.InventoryPanel;
 import com.game.ui.views.MapEditor;
-import com.game.ui.views.SimpleDialog;
+import com.game.ui.views.MapPanel;
 import com.game.ui.views.WeaponEditorPanel;
 import com.game.util.GameUtils;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
@@ -29,8 +34,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -46,6 +49,10 @@ public class NewEmptyJUnitTest extends TestCase{
    public   MapEditor me;
    public   JCheckBox jc;
    public   WeaponEditorPanel wep;
+   public   MapInformation map;
+   public   MapPanel mapPanel;
+   public   InitCharacterAndMapPanel icamp;
+   
     public NewEmptyJUnitTest() throws Exception {
           try {
             GameBean.doInit();
@@ -66,6 +73,8 @@ public class NewEmptyJUnitTest extends TestCase{
           iin.setChest(a);
           in.setInventory(iin);
           jc = new JCheckBox();
+          map = new MapInformation();
+          
     }
     
     @BeforeClass
@@ -157,6 +166,22 @@ public class NewEmptyJUnitTest extends TestCase{
      Assert.assertTrue(wep.getValidationMess() != null);
      }
     
+     public void testgetMapInformation(){
+     map.setColumns(10);
+     map.setRows(5);
+     mapPanel = new MapPanel();
+     mapPanel.getMapInformation(map);
+     Assert.assertTrue(mapPanel.getMapRows() != 0);
+     }
+     
+     public void testMapInformation() throws Exception{
+         icamp = new InitCharacterAndMapPanel();
+         icamp.gamePlayers.add(in);
+         Assert.assertTrue(icamp.loadMap("qwe") != null);
+     }
+     
+     
+     
     @AfterClass
     public static void tearDownClass() {
     }
