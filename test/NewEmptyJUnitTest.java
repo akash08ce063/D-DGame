@@ -23,6 +23,7 @@ import com.game.util.GameUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,7 @@ public class NewEmptyJUnitTest extends TestCase{
    public   MapInformation map;
    public   MapPanel mapPanel;
    public   InitCharacterAndMapPanel icamp;
+   public   MapInformation mi;
    
     public NewEmptyJUnitTest() throws Exception {
           try {
@@ -74,11 +76,28 @@ public class NewEmptyJUnitTest extends TestCase{
           in.setInventory(iin);
           jc = new JCheckBox();
           map = new MapInformation();
+          mi = new MapInformation();
           
     }
     
     @BeforeClass
     public static void setUpClass() {
+    }
+    public void testUserLocation()
+    {
+        Assert.assertTrue(mi.getUserLocation().size() == 0);
+    }
+    public void testStartPointInfo()
+    {
+        Assert.assertTrue(mi.getStartPointInfo() != null);
+    }
+    public void testGetRow()
+    {
+        Assert.assertTrue(mi.getRows() > -1);
+    }
+    public void testGetColumn()
+    {
+        Assert.assertTrue(mi.getColumns() > -1);
     }
      public void testgetPositionOfArmourItem(){
        Assert.assertTrue(GameUtils.getPositionOfArmourItem("Iron Helmet") > -1);
