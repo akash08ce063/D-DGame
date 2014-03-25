@@ -19,10 +19,12 @@ import java.util.Set;
 public class MapBuilder 
 {
    private MapInformation mapInformation;
-   private MapBuilder(MapInformation mapInformation) 
+   int levelSum = 0;
+   int aveLevel = 0;
+   public MapInformation BuildMap(MapInformation mapInformation) throws Exception
    {
-       this.mapInformation = mapInformation;
-       if(mapInformation.getUserLocation() == null) // it is a new map
+      this.mapInformation = mapInformation;
+       if(mapInformation.getUserLocation().size() == 0) // it is a new map
        {
            for (Map.Entry<Integer,TileInformation> entry : mapInformation.getPathMap().entrySet())
            {
@@ -34,12 +36,11 @@ public class MapBuilder
        }
        else //it is a map saved before
        {
-           int levelSum = 0;
-           int aveLevel = 0;
            for(Map.Entry<Integer,Integer> entry : mapInformation.getUserLocation().entrySet())
            {
                levelSum = levelSum + mapInformation.getPathMap().get(entry.getValue()).getPlayer().getLevel();
            }
+           
            aveLevel = levelSum / mapInformation.getUserLocation().size();
            for(Map.Entry<Integer,TileInformation> entry : mapInformation.getPathMap().entrySet())
            {
@@ -56,11 +57,20 @@ public class MapBuilder
                entry.getValue().getTreasure().setValue(defaultTreasureValue);
            }
        }
-   }
-   
-   public MapInformation BuildMap(String fileName, String mapName) throws Exception
-   {
-       new MapBuilder(GameUtils.fetchParticularMapData(fileName, mapName));
+       
+       
+       
+       
+        for(Map.Entry<Integer,TileInformation> entry : mapInformation.getPathMap().entrySet())
+           {
+               if(entry.getValue().getEnemy() != null)
+              {
+                  System.out.println("this is the monsters level " + entry.getValue().getEnemy().getLevel());
+              }
+           }
+       System.out.println("average level " + aveLevel);
+       
+       
        return mapInformation;
    }
    
