@@ -47,4 +47,6 @@ public class Configuration {
     public static final Color  endPointColor = new Color(113,152,39);
     public static final Color  enemyColor = new Color(134,57,67);
     public static String armourTypes[] = {"helmet", "chest", "shield", "boot", "gloves", "belt", "bracers"};
+    public static final int defaultLevel = 1;
+    public static final int defaultTreasureValue = 1000;
 }
