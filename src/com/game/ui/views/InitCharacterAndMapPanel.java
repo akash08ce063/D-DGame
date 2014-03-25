@@ -33,6 +33,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 /**
  * This class is used to generate the UI of character and map panel
@@ -68,6 +69,12 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         
         JPanel panel = new JPanel();
         
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        
+        JPanel submitPanel = new JPanel();
+        JPanel creatPanel = new JPanel();
+        
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         
@@ -84,7 +91,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         
         Label selectCharacterLabel = new Label ("SelectCharacter");
         Label selectMapsLabel = new Label ("SelectMaps");
-        warningLabel = new Label ("Please choose 1 characters !");
+        warningLabel = new Label ("Please choose characters !");
         warningLabel.setVisible(true);
         
         String[] totalNames1 = getCharacterNames();
@@ -103,7 +110,16 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         MapPane.setPreferredSize(new Dimension(150, 100));
         
         JButton SubmitButton = new JButton("Submit");
+        SubmitButton.setPreferredSize(new Dimension(120, 30));
+        SubmitButton.setActionCommand("Submit");
         SubmitButton.addActionListener(this);
+        submitPanel.add(SubmitButton);
+        
+        JButton creatPlayer = new JButton("CreatPlayer");
+        creatPlayer.setPreferredSize(new Dimension(120, 30));
+        creatPlayer.setActionCommand("CreatPlayer");
+        creatPlayer.addActionListener(this);
+        creatPanel.add(creatPlayer);
         
         leftPanel.add(selectCharacterLabel);
         leftPanel.add(characterPane);
@@ -113,7 +129,11 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         
         panel.add(leftPanel);
         panel.add(rightPanel);
-        panel.add(SubmitButton);
+        
+        buttonPanel.add(submitPanel);
+        buttonPanel.add(creatPanel);
+        
+        panel.add(buttonPanel);
         
         basicPanel.add(panel);
         basicPanel.add(warningLabel);
@@ -134,11 +154,12 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
      */
     @Override
      public void actionPerformed(ActionEvent event){
+         String command = event.getActionCommand();
+        if("Submit".equals(command)){ 
         if(mapList.getSelectedValue() != null && characterList.getSelectedValuesList() != null){
             mapName = (String) mapList.getSelectedValue();
             System.out.println(mapName);
             List o = characterList.getSelectedValuesList();
-            if(o.size()==1){
                 Player GC = new Player();
                 for(int i =0;i<o.size();i++){
                         Iterator it = collectionOfPlayers.iterator();
@@ -150,7 +171,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
                                 gamePlayers.add(GC);
                             }
                         }           
-            }
+           }
             System.out.println(gamePlayers.size());
                 try{
                         MapInformation finalMapInformation = loadMap(mapName);
@@ -159,11 +180,23 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
                         Logger.getLogger(InitCharacterAndMapPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 this.dispose();       
-            }else{
-                warningLabel.setText("Please choose 1 characters !");
-            }
         }else{
             warningLabel.setText("please choose map and characters !");
+        }
+        }else{
+             try {
+            GameBean.doInit();
+            if (GameBean.weaponDetails.size() > 0) {
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                frame.add(new PlayerEditor());
+                frame.setName("Frame");
+                frame.pack();
+                frame.setVisible(true);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PlayerEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }
     

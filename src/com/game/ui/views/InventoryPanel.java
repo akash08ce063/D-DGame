@@ -10,6 +10,7 @@ import com.game.models.Armour;
 import com.game.models.Configuration;
 import com.game.models.Inventory;
 import com.game.models.Item;
+import com.game.models.Player;
 import com.game.models.Potion;
 import com.game.models.Ring;
 import com.game.models.Weapon;
@@ -62,12 +63,14 @@ public class InventoryPanel extends JDialog implements ActionListener{
     public JButton bracers;
     public JButton gloves;
     public JButton ring;
+    public Player player;
     public int emptyNumber; //this is used to diceied which item is empty now so when unequip we can put item here
     public int newEmptyNumber = 99; //this is used to keep the number when we equip an item
     
-    public InventoryPanel(Inventory Inventories){
-        characterInventory = Inventories;
-        System.out.println("Item: " + Inventories.getItems());
+    public InventoryPanel(Player player){
+        this.player = player ;
+        characterInventory = player.getInventory();
+//        System.out.println("Item: " + Inventories.getItems());
         inventoryRow = Configuration.INVENTORY_ROW;
         inventoryColumn = Configuration.INVENTORY_COLUMN;
         inventorySize = Configuration.INVENTORY_SIZE;
@@ -77,7 +80,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
         unequip = new JButton("Unequip");
         use = new JButton("Use");
         putInventoriesIntoItem();
-        initUI();
+        initUI(player);
         //ItemInformation = "name:\n" + "Damage:\n" + "AttackRange:\n";
         //initUI();
     }
@@ -85,7 +88,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
     /**
      * this method is to initiate inventory panel UI
      */
-     public void initUI(){
+     public void initUI(Player player){
          JPanel panel = new JPanel();
          JPanel topPanel = new JPanel();
          JPanel bottomPanel = new JPanel();
@@ -391,34 +394,9 @@ public class InventoryPanel extends JDialog implements ActionListener{
     /**
      * this method is put all itmes of CharacterInventory into an arrylist of itme
      */
-    public void putInventoriesIntoItem(){
-        /*Armour A1 = characterInventory.getBoot();
-        Armour A2 = characterInventory.getHelmet();
-        LinkedList<Ring> R = characterInventory.getRing();
-        Weapon W = characterInventory.getEquippedWeapon();*/
+    public boolean putInventoriesIntoItem(){
         LinkedList<Item> I = characterInventory.getItems();
         System.out.println("item:" + I);
-        /*if(A1 != null){
-            itemsOfCharacter.add(A1);
-        }
-        
-        if(W != null){
-            itemsOfCharacter.add(W);
-        }
-        
-        if(A2 != null){
-            itemsOfCharacter.add(A2);
-        }
-        
-        if(R != null){
-            Iterator it = R.iterator();
-        while(it.hasNext()){
-            Ring r = (Ring)it.next();
-            if(r != null){
-                itemsOfCharacter.add((Item)r);
-            }
-        }
-        }*/
         
         if(I != null){
             Iterator it = I.iterator();
@@ -444,6 +422,7 @@ public class InventoryPanel extends JDialog implements ActionListener{
             }
             }
         }
+        return true;
         }
     
     /**
@@ -462,15 +441,16 @@ public class InventoryPanel extends JDialog implements ActionListener{
         System.out.println(command);
         if("equip".equals(command)){
             LinkedList<Item> li = characterInventory.getItems();
-            int id = currentInventory.getItemID();
+            //int id = currentInventory.getItemID();
             for(int i =0; i<li.size();i++){
                 Item it = li.get(i);
-                if(it.getItemID() == id){
+                if(it == currentInventory){
+                    System.out.println("remove it!");
                     li.remove(i);
                     break;
                 }
             }
-            
+            characterInventory.setItems(li);
             if(currentInventory instanceof Weapon){
                 Weapon wea2 = characterInventory.getEquippedWeapon();
                 if(wea2 == null){
@@ -491,6 +471,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                     informationLable.setText("");
                     inventoryButtonMap.remove(currentItemNum);
                     inventoryButtonMap.put(currentItemNum, wea2);
+                    li.add(wea2);
+                    characterInventory.setItems(li);
                 }
            }else if(currentInventory instanceof Armour){
                     Armour armor = (Armour)currentInventory;
@@ -512,6 +494,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "helmet": ar = characterInventory.getHelmet();
@@ -529,6 +513,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "chest":ar = characterInventory.getChest();
@@ -546,6 +532,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "shield": ar = characterInventory.getShield();
@@ -563,6 +551,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "gloves": ar = characterInventory.getGloves();
@@ -580,6 +570,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "belt": ar = characterInventory.getBelt();
@@ -597,6 +589,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                         case "bracers": ar = characterInventory.getBracers();
@@ -614,6 +608,8 @@ public class InventoryPanel extends JDialog implements ActionListener{
                                         informationLable.setText("");
                                         inventoryButtonMap.remove(currentItemNum);
                                         inventoryButtonMap.put(currentItemNum, ar);
+                                        li.add(ar);
+                                        characterInventory.setItems(li);
                                      }
                                      break;
                     }
@@ -637,10 +633,13 @@ public class InventoryPanel extends JDialog implements ActionListener{
                         informationLable.setText("");
                         inventoryButtonMap.remove(currentItemNum);
                         inventoryButtonMap.put(currentItemNum, ri2);
+                        li.add(ri2);
+                        characterInventory.setItems(li);
                     }
                 }
                 
-                MapPanel.inventory = characterInventory;
+                player.setInventory(characterInventory);
+                
                 equip.setEnabled(false);
                 unequip.setEnabled(false);
         }else if("unequip".equals(command)){
@@ -885,39 +884,99 @@ public class InventoryPanel extends JDialog implements ActionListener{
       public static void main(String[] args) {
 		// TODO Auto-generated method stub
          Inventory in = new Inventory();
+         Player p = new Player();
          LinkedList<Item> i = new LinkedList<>();
          Weapon w = new Weapon();
           w.setAttackPts(12);
           w.setAttackRange(2);
           w.setName("Sword");
+          w.setItemID(0);
           w.setWeaponType("Meele");
           
           Weapon w2 = new Weapon();
           w2.setAttackPts(10);
           w2.setAttackRange(5);
           w2.setName("LongBow");
+          w2.setItemID(1);
           w2.setWeaponType("Range");
           
           Ring r = new Ring();
           r.setName("bigRing");
+          r.setItemID(2);
           
           Ring r2 = new Ring();
           r.setName("smallRing");
+          r.setItemID(3);
           
           Armour a = new Armour();
           a.setArmourPts(2);
-          a.setName("IronBoot");
+          a.setName("LeatherBoot");
           a.setArmourType("boot");
-   
+          
+          Armour a2 = new Armour();
+          a2.setArmourPts(1);
+          a2.setName("PaddedGloves");
+          a2.setArmourType("gloves");
+          
+          Armour a3 = new Armour();
+          a3.setArmourPts(4);
+          a3.setName("chainShirt");
+          a3.setArmourType("chest");
+          
+          Armour a4 = new Armour();
+          a4.setArmourPts(2);
+          a4.setName("LeatherHelmet");
+          a4.setArmourType("helmet");
+          
+          Armour a5 = new Armour();
+          a5.setArmourPts(2);
+          a5.setName("LeatherBelt");
+          a5.setArmourType("belt");
+          
+          Armour a6 = new Armour();
+          a6.setArmourPts(7);
+          a6.setName("studdedLeatherBracer");
+          a6.setArmourType("bracers");
+          
+          Armour a7 = new Armour();
+          a7.setArmourPts(8);
+          a7.setName("fullPlate");
+          a7.setArmourType("chest");
+          
+          Armour a8 = new Armour();
+          a8.setArmourPts(1);
+          a8.setName("bucker");
+          a8.setArmourType("shield");
+          
+          Armour a9 = new Armour();
+          a9.setArmourPts(2);
+          a9.setName("heavyShield");
+          a9.setArmourType("shield");
+          
+          Armour a10 = new Armour();
+          a10.setArmourPts(4);
+          a10.setName("TowerShield");
+          a10.setArmourType("shield");
+          
           i.add(w);
           i.add(a);
-          
+          i.add(a2);
+          i.add(a3);
+          i.add(a4);
+          i.add(a5);
+          i.add(a6);
+          i.add(a7);
+          i.add(a8);
+          i.add(a9);
+          i.add(a10);
           //in.setBoot(a);
           in.setEquippedWeapon(w2);
           in.setRing(r);
           in.setTotGold(new Long(178972));
           in.setItems(i);
-          InventoryPanel ex = new InventoryPanel(in);
-          //System.out.println("current weapon:" + in.getEquippedWeapon().getName());
+          p.setInventory(in);
+          System.out.println("current weapon1:" + p.getInventory().getEquippedWeapon().getName());
+          InventoryPanel ex = new InventoryPanel(p);
+          System.out.println("current weapon2:" + p.getInventory().getEquippedWeapon().getName());
 	}
 }

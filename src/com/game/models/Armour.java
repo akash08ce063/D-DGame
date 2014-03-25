@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class Armour extends Item{
     private String name;
     private int armourPts;
-    private String armourType;
+    private String armourType; 
 
     public String getName() {
         return name;

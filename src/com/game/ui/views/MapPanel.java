@@ -303,7 +303,7 @@ public class MapPanel extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
            inventory = pathMap.get(userLocation.get(0)).getPlayer().getInventory();
-           InventoryPanel inventoryPanel = new InventoryPanel(inventory);
+           //InventoryPanel inventoryPanel = new InventoryPanel(inventory);
             System.out.println("currnet weapon:" + inventory.getEquippedWeapon().getName());
         }
         

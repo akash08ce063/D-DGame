@@ -40,9 +40,22 @@ import org.apache.commons.lang3.StringUtils;
 public class WeaponEditorPanel extends JPanel implements ActionListener {
 
     private JComboBox comboBox = null;
+
+    public JComboBox getComboBox() {
+        return comboBox;
+    }
+
+    public JLabel getValidationMess() {
+        return validationMess;
+    }
+
+    public JCheckBox getChkBox() {
+        return chkBox;
+    }
     private JLabel validationMess = null;
     private int location = -1;
     private JCheckBox chkBox = null;
+    
     public WeaponEditorPanel(int location, JCheckBox chkBox) {
         doGui();
         this.location = location;

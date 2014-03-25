@@ -48,6 +48,14 @@ public class MapEditor extends JFrame implements ActionListener {
     private SimpleDialog dialog = null;
     private JPanel bottomPanel = null;
 
+    public SimpleDialog getDialog() {
+        return dialog;
+    }
+
+    public JPanel getBottomPanel() {
+        return bottomPanel;
+    }
+
     public MapEditor() throws IOException {
         generateGUI();
     }
