@@ -40,6 +40,10 @@ public class MapPanel extends JFrame implements ActionListener {
     private JPanel wrapperPanel2 = new JPanel(new BorderLayout(5, 5));
     private TreeMap<Integer, TileInformation> pathMap;
     private int mapRows;
+
+    public int getMapRows() {
+        return mapRows;
+    }
     private int mapColumns;
     private JPanel mapPanel;
     private int commandCounter;
