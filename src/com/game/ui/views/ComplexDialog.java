@@ -7,6 +7,7 @@
 package com.game.ui.views;
 
 import com.game.models.GameBean;
+import com.game.models.MapInformation;
 import com.game.models.TileInformation;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -62,10 +63,12 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
         for(int i = 0; i < checkBox.length; i++)
         {
             panel[i] = new JPanel();
-            panel[i].setLayout(new FlowLayout(FlowLayout.LEFT, 30,0));
+            panel[i].setLayout(new BoxLayout(panel[i],BoxLayout.X_AXIS));
             checkBox[i] = new JCheckBox(text[i], false);
             checkBox[i].setEnabled(false);
             checkBox[i].setPreferredSize(new Dimension(100,30));
+            checkBox[i].setMinimumSize(new Dimension(100,30));
+            checkBox[i].setMaximumSize(new Dimension(100,30));
             if(i < 6){
                 btn[i] = new JButton("Edit "+text[i]+" >>");
             }
@@ -74,13 +77,19 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
             }
             btn[i].setActionCommand(text[i]);
             btn[i].setPreferredSize(new Dimension(200,30));
+            btn[i].setMinimumSize(new Dimension(200,30));
+            btn[i].setMaximumSize(new Dimension(200,30));
+            
             btn[i].addActionListener(this);
             panel[i].add(checkBox[i]);
+            panel[i].add(Box.createHorizontalStrut(5));
             panel[i].add(btn[i]);
+            panel[i].add(Box.createHorizontalGlue());
             leftWrapper.add(panel[i]);
             leftWrapper.add(Box.createVerticalStrut(30));
         }
-        JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 30,0));
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
         JButton clearAll = new JButton("Clear All");
         clearAll.setActionCommand("Clear");
         clearAll.setPreferredSize(new Dimension(90, 30));
@@ -90,8 +99,11 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
         saveButton.setPreferredSize(new Dimension(80, 30));
         saveButton.addActionListener(this);
         panel1.add(clearAll);
+        panel1.add(Box.createHorizontalStrut(5));
         panel1.add(saveButton);
+        panel1.add(Box.createHorizontalGlue());
         leftWrapper.add(panel1);
+        leftWrapper.setPreferredSize(new Dimension(400,1024));
         leftWrapper.add(Box.createVerticalStrut(30));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
@@ -130,6 +142,7 @@ public class ComplexDialog extends JDialog implements ActionListener,WindowListe
 //        GameBean.ringDetails = GameUtils.getAllItems(Configuration.PATH_FOR_RINGS);
 //        GameBean.potionDetails = GameUtils.getAllItems(Configuration.PATH_FOR_POTIONS);
 //        GameBean.weaponDetails = GameUtils.getAllItems(Configuration.PATH_FOR_WEAPONS);
+        GameBean.mapInfo = new MapInformation();
         GameBean.doInit();
         ComplexDialog dialog = new ComplexDialog(""+1);
     }
