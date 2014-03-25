@@ -23,7 +23,16 @@ public class GameCharacter {
     private int attackPts;
     private int attackRange;
     private int movement;
+    private int level;
 
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+    public int getLevel()
+    {
+        return level;
+    }
     public int getMovement() {
         return movement;
     }
