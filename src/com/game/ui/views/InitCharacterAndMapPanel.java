@@ -169,6 +169,7 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
                             System.out.println(o.get(i));
                             if(GC.getName() == o.get(i)){
                                 gamePlayers.add(GC);
+                                System.out.println("Level of Player: " + GC.getLevel());
                             }
                         }           
            }
@@ -209,7 +210,8 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         MapInformation M = new MapInformation();
         TreeMap<Integer,TileInformation>  NewpathMap = new TreeMap<>();
         LinkedHashMap<Integer,Integer> NewuserLocation = new LinkedHashMap<>();
-        M = GameUtils.fetchParticularMapData(mapDirectory,NameOfMap);
+        M = GameUtils.fetchParticularMapData(mapDirectory, NameOfMap);
+        MapBuilder mb = new MapBuilder();
         ArrayList<Integer> S = M.getStartPointInfo();
         System.out.println("StartPointInfo" + S.size());
         Iterator it = S.iterator();
@@ -227,6 +229,8 @@ public class InitCharacterAndMapPanel extends JFrame implements ActionListener{
         }
         M.setPathMap(NewpathMap);
         M.setUserLocation(NewuserLocation);
+        System.out.println(M.getUserLocation().size());
+        M = mb.BuildMap(M);
         System.out.println(NewuserLocation);
         System.out.println(NewpathMap);
         return M;
