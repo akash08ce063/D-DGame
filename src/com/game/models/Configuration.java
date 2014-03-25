@@ -46,5 +46,5 @@ public class Configuration {
     public static final Color  startPointColor = new Color(80,104,112);
     public static final Color  endPointColor = new Color(113,152,39);
     public static final Color  enemyColor = new Color(134,57,67);
-    
+    public static String armourTypes[] = {"helmet", "chest", "shield", "boot", "gloves", "belt", "bracers"};
 }
