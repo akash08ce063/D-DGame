@@ -7,6 +7,7 @@ package com.game.ui.views;
 
 import com.game.models.Armour;
 import com.game.models.Configuration;
+import static com.game.models.Configuration.armourTypes;
 import com.game.models.GameBean;
 import com.game.models.Item;
 import com.game.models.Potion;
@@ -51,6 +52,7 @@ public class ItemPanel extends JPanel implements ActionListener {
     private JLabel validationMess = null;
     private int location = -1;
     private JCheckBox chkBox = null;
+    private JComboBox armourBox = null;
     
     public ItemPanel(String type,int location, JCheckBox chkBox) {
         this.type = type;
@@ -215,7 +217,18 @@ public class ItemPanel extends JPanel implements ActionListener {
         c.gridx = 1;
         JTextField armourPtsTxt = new JTextField("");
         armourPtsTxt.setColumns(20);
-        panel1.add(armourPtsTxt, c);
+        panel1.add(armourPtsTxt, c);      
+        c.gridx = 0;
+        c.gridy = 3;
+        JLabel armourType = new JLabel("Armour Type");
+        panel1.add(armourType, c);
+        c.gridx = 1; 
+        armourBox = new JComboBox(armourTypes);
+        armourBox.setSelectedIndex(-1);
+        armourBox.setAlignmentX(0);
+        armourBox.setMaximumSize(new Dimension(100, 30));
+        panel1.add(armourBox, c);
+        
     }
 
     public void createComponentsForTreasure(JPanel panel1, GridBagConstraints c) {
@@ -248,6 +261,12 @@ public class ItemPanel extends JPanel implements ActionListener {
             if (armour.getName().equalsIgnoreCase(name)) {
                 ((JTextField) panel.getComponent(2)).setText(name);
                 ((JTextField) panel.getComponent(4)).setText("" + armour.getArmourPts());
+                String temp = armour.getArmourType();
+                for(int i = 0; i < Configuration.armourTypes.length; i++){
+                    if(temp.equalsIgnoreCase(Configuration.armourTypes[i])){
+                        armourBox.setSelectedIndex(i);
+                    }
+                }
                 return;
             }
         }
@@ -323,7 +342,11 @@ public class ItemPanel extends JPanel implements ActionListener {
 
     public void persistArmourData(String name, JPanel panel) {
         String armourPts = ((JTextField) panel.getComponent(4)).getText();
-        if (StringUtils.isNotBlank(armourPts) && StringUtils.isNotBlank(name)) {
+        Object temp = armourBox.getSelectedItem();
+        String armourType = null;
+        if(temp != null)
+            armourType = temp.toString();
+        if (StringUtils.isNotBlank(armourPts) && StringUtils.isNotBlank(name)&& StringUtils.isNotBlank(armourType)) {
             int position = GameUtils.getPositionOfArmourItem(name);
             if (position != -1) {
                 GameBean.armourDetails.remove(position);
@@ -334,6 +357,7 @@ public class ItemPanel extends JPanel implements ActionListener {
             Armour armour = new Armour();
             armour.setName(name);
             armour.setArmourPts(Integer.parseInt(armourPts));
+            armour.setArmourType(armourType);
             GameBean.armourDetails.add(armour);
             try {
                 GameUtils.writeItemsToXML(GameBean.armourDetails, Configuration.PATH_FOR_ARMOURS);
